@@ -2,7 +2,7 @@
 import { SignIn } from "@clerk/nextjs"
 import { useSearchParams } from "next/navigation"
 
-const page = () => {
+const Page = () => {
     const searchParams = useSearchParams()
     const intent = searchParams.get("intent")
 
@@ -16,4 +16,4 @@ const page = () => {
         </div>
     )
 }
-export default page
+export default Page

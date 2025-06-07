@@ -9,7 +9,7 @@ interface PageProps {
         name: string | string[] | undefined
     }
 }
-const page = async ({ params }: PageProps) => {
+const Page = async ({ params }: PageProps) => {
     if (typeof params.name !== "string") notFound()
     const auth = await currentUser()
     if (!auth) {
@@ -42,4 +42,4 @@ const page = async ({ params }: PageProps) => {
         </DashboardPage>
     )
 }
-export default page
+export default Page

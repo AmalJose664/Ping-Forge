@@ -13,7 +13,7 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter"
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism"
 import Icons from "@/components/Icons"
 
-const page = () => {
+const Page = () => {
     const codeSnippet = `await fetch("http://localhost:3000/api/v1/events", {
   method: "POST",
   body: JSON.stringify({
@@ -387,4 +387,4 @@ const page = () => {
         </>
     )
 }
-export default page
+export default Page
