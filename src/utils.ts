@@ -7,5 +7,5 @@ export function cn(...inputs: ClassValue[]) {
 export const parseColor = (color: string) => {
     const hex = color.startsWith("#") ? color.slice(1) : color
 
-    return parseInt(hex)
+    return parseInt(hex, 16)
 }

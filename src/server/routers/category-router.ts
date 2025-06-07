@@ -5,6 +5,7 @@ import { startOfMonth } from "date-fns"
 import { z } from "zod"
 import { CATEGORY_NAME_VALIDAOTRS } from "@/lib/validators/category-validators"
 import { parseColor } from "@/utils"
+import { HTTPException } from "hono/http-exception"
 
 export const categoryRouter = router({
     getEventCategories: privateProcedure.query(async ({ c, ctx }) => {
@@ -100,27 +101,70 @@ export const categoryRouter = router({
             return c.json({ success: true })
         }),
 
-    createEventCategory: privateProcedure.input(
-        z.object({
-            name: CATEGORY_NAME_VALIDAOTRS,
-            color: z
-                .string()
-                .min(1, "Color is required")
-                .regex(/^#[0-9A-F]{6}$/i, "Invalid color format"),
-            emoji: z.string().emoji("Invalid emoji").optional(),
-        })
-    ).mutation(async({c,input, ctx})=>{
-		const { user} = ctx
-		const {color, name, emoji} = input
-		
-		const eventCategory = await db.eventCategory.create({
-			data: {
-				name: name.toLowerCase(),
-				color: parseColor(color),
-				emoji: 
-			}
-		})
+    createEventCategory: privateProcedure
+        .input(
+            z.object({
+                name: CATEGORY_NAME_VALIDAOTRS,
+                color: z
+                    .string()
+                    .min(1, "Color is required")
+                    .regex(/^#[0-9A-F]{6}$/i, "Invalid color format."),
+                emoji: z.string().emoji("Invalid emoji").optional(),
+            })
+        )
+        .mutation(async ({ c, input, ctx }) => {
+            console.log("Received log")
 
-		return c.json({ success: true })
-	})
+            const { user } = ctx
+            const { color, name, emoji } = input
+
+            const eventCategory = await db.eventCategory.create({
+                data: {
+                    name: name.toLowerCase(),
+                    color: parseColor(color),
+                    emoji: emoji,
+                    userId: user.id,
+                },
+            })
+
+            return c.json({ eventCategory })
+        }),
+    insertQuickCategories: privateProcedure.mutation(
+        async ({ c, ctx, input }) => {
+            const categories = await db.eventCategory.createMany({
+                data: [
+                    { name: "bug", emoji: "🐛", color: 0xff6b6b },
+                    { name: "sale", emoji: "💰", color: 0xffeb3b },
+                    { name: "question", emoji: "🤔", color: 0x6c5ce7 },
+                ].map((category) => {
+                    return { ...category, userId: ctx.user.id }
+                }),
+            })
+            return c.json({ success: true, count: categories.count })
+        }
+    ),
+
+    pollCategory: privateProcedure
+        .input(z.object({ name: CATEGORY_NAME_VALIDAOTRS }))
+        .query(async ({ c, ctx, input }) => {
+            const { name } = input
+            const category = await db.eventCategory.findUnique({
+                where: { name_userId: { name, userId: ctx.user.id } },
+                include: {
+                    _count: {
+                        select: {
+                            events: true,
+                        },
+                    },
+                },
+            })
+            if (!category) {
+                throw new HTTPException(404, {
+                    message: `Category '${name} not found'`,
+                })
+            }
+            const hasEvents = category._count.events > 0
+
+            return c.json({ hasEvents })
+        }),
 })

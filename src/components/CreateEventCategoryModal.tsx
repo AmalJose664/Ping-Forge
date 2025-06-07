@@ -1,5 +1,5 @@
 "use client"
-import { useQueryClient } from "@tanstack/react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { PropsWithChildren, useState } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -10,6 +10,7 @@ import { Label } from "./ui/label"
 import { Input } from "./ui/input"
 import { cn } from "@/utils"
 import { Button } from "./ui/button"
+import { client } from "@/lib/client"
 
 const EVENT_CATEGORY_VALIDAOTRS = z.object({
     name: CATEGORY_NAME_VALIDAOTRS,
@@ -46,9 +47,28 @@ const EMOJI_OPTIONS = [
     { emoji: "💡", label: "Idea" },
     { emoji: "🔔", label: "Notification" },
 ]
-const CreateEventCategoryModal = ({ children }: PropsWithChildren) => {
+interface CreateEventCategoryModal extends PropsWithChildren {
+    className?: string
+}
+const CreateEventCategoryModal = ({
+    children,
+    className,
+}: CreateEventCategoryModal) => {
     const [isOpen, setIsOpen] = useState(false)
     const queryClient = useQueryClient()
+
+    const { mutate: createEventCategory, isPending } = useMutation({
+        mutationFn: async (data: EventCategoryForm) => {
+            await client.category.createEventCategory.$post(data)
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: ["user-event-categories"],
+            })
+            setIsOpen(false)
+        },
+    })
+
     const {
         register,
         handleSubmit,
@@ -61,10 +81,12 @@ const CreateEventCategoryModal = ({ children }: PropsWithChildren) => {
     const color = watch("color")
     const selectedEmoji = watch("emoji")
 
-    const onSubmit = (data: EventCategoryForm) => {}
+    const onSubmit = (data: EventCategoryForm) => {
+        createEventCategory(data)
+    }
     return (
         <>
-            <div className="" onClick={() => setIsOpen(true)}>
+            <div className={className} onClick={() => setIsOpen(true)}>
                 {children}
             </div>
             <Modal
@@ -72,10 +94,7 @@ const CreateEventCategoryModal = ({ children }: PropsWithChildren) => {
                 showModal={isOpen}
                 setShowModal={setIsOpen}
             >
-                <form
-                    onSubmit={(e) => handleSubmit(onSubmit)}
-                    className="space-y-6"
-                >
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                     <div>
                         <h2 className="text-lg/7 font-medium tracking-tight text-gray-950">
                             New Event Category
@@ -137,7 +156,7 @@ const CreateEventCategoryModal = ({ children }: PropsWithChildren) => {
                                             className={cn(
                                                 "size-10 flex items-center justify-center text-xl rounded-md transition-all",
                                                 selectedEmoji === emoji.emoji
-                                                    ? "bg-brand-100 ring-brand-700 scale-110"
+                                                    ? "bg-brand-100 ring-brand-700 scale-125"
                                                     : "bg-brand-100 hover:bg-brand-200"
                                             )}
                                             onClick={() =>
@@ -145,7 +164,9 @@ const CreateEventCategoryModal = ({ children }: PropsWithChildren) => {
                                             }
                                             type="button"
                                             key={emoji.emoji}
-                                        ></button>
+                                        >
+                                            {emoji.emoji}
+                                        </button>
                                     )
                                 })}
                             </div>
@@ -165,7 +186,9 @@ const CreateEventCategoryModal = ({ children }: PropsWithChildren) => {
                         >
                             Cancel
                         </Button>
-                        <Button type="submit">Create Category</Button>
+                        <Button type="submit">
+                            {isPending ? "Loading..." : "Create Category"}
+                        </Button>
                     </div>
                 </form>
             </Modal>
