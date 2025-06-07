@@ -59,9 +59,6 @@ const CategoryPageContent = ({
         queryKey: ["category", category.name, "hasEvents"],
         initialData: { hasEvents: initialHasEvents },
     })
-    if (!pollingData.hasEvents) {
-        return <EmptyCategoryState categoryName={category.name} />
-    }
 
     const { data, isFetching } = useQuery({
         queryKey: [
@@ -215,6 +212,7 @@ const CategoryPageContent = ({
         })
         return sums
     }, [data?.events])
+
     const NumericFieldSumCards = () => {
         if (Object.keys(numericFieldSums).length === 0) return null
         return Object.entries(numericFieldSums).map(([field, sums]) => {
@@ -250,6 +248,10 @@ const CategoryPageContent = ({
                 </>
             )
         })
+    }
+
+    if (!pollingData.hasEvents) {
+        return <EmptyCategoryState categoryName={category.name} />
     }
     return (
         <div className="space-y-6">

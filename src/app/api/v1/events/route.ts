@@ -59,7 +59,7 @@ export const POST = async (req: NextRequest) => {
         }
 
         const currentDate = new Date()
-        const currentMonth = currentDate.getMonth()
+        const currentMonth = currentDate.getMonth() + 1
         const currentYear = currentDate.getFullYear()
 
         const quota = await db.quota.findUnique({
