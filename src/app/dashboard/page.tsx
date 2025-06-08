@@ -34,6 +34,7 @@ const Dashboard = async ({ searchParams }: PageProps) => {
     const success = searchParams.success
     let tutorial = searchParams.tutorial
     if (success && tutorial) tutorial = undefined
+    const addCategory = searchParams.addcategory
     return (
         <>
             {success && <PaymentSuccessModal />}
@@ -44,7 +45,7 @@ const Dashboard = async ({ searchParams }: PageProps) => {
             )}
             <DashboardPage
                 cta={
-                    <CreateEventCategoryModal>
+                    <CreateEventCategoryModal addStart={!!addCategory}>
                         <Button className="w-full sm:w-fit">
                             <PlusIcon className="size-4 mr-2" />
                             Add Category

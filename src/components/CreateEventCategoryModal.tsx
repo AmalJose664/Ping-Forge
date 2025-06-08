@@ -49,12 +49,14 @@ const EMOJI_OPTIONS = [
 ]
 interface CreateEventCategoryModal extends PropsWithChildren {
     className?: string
+    addStart: boolean
 }
 const CreateEventCategoryModal = ({
     children,
     className,
+    addStart,
 }: CreateEventCategoryModal) => {
-    const [isOpen, setIsOpen] = useState(false)
+    const [isOpen, setIsOpen] = useState(addStart)
     const queryClient = useQueryClient()
 
     const { mutate: createEventCategory, isPending } = useMutation({

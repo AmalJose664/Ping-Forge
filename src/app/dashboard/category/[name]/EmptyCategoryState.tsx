@@ -1,6 +1,8 @@
 import Card from "@/components/ui/customCard"
 import { client } from "@/lib/client"
 import { useQuery } from "@tanstack/react-query"
+import { CopyIcon } from "lucide-react"
+import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useEffect } from "react"
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter"
@@ -39,6 +41,9 @@ const EmptyCategoryState = ({ categoryName }: { categoryName: string }) => {
     }
   })
 })`
+    const copyCode = () => {
+        navigator.clipboard.writeText(codeSnippet)
+    }
     return (
         <Card
             className="flex-1 flex items-center justify-center"
@@ -57,9 +62,17 @@ const EmptyCategoryState = ({ categoryName }: { categoryName: string }) => {
                         <div className="size-3 rounded-full bg-yellow-500" />
                         <div className="size-3 rounded-full bg-green-500" />
                     </div>
-                    <span className="text-gray-400 text-sm">
-                        yor-first-event.js
-                    </span>
+
+                    <div className="flex gap-3 items-center relative">
+                        <CopyIcon
+                            className="size-4 mr-1"
+                            color="white"
+                            onClick={copyCode}
+                        />
+                        <span className="text-gray-400 text-sm">
+                            yor-first-event.js
+                        </span>
+                    </div>
                 </div>
                 <SyntaxHighlighter
                     language="javascript"
@@ -82,15 +95,14 @@ const EmptyCategoryState = ({ categoryName }: { categoryName: string }) => {
                         Listening to incoming events...
                     </span>
                 </div>
-                <p className="text-sm/6 text-gray-600 mt-2">
+                <p className="text-base text-gray-600 mt-2">
                     Need help? Check out our{" "}
-                    <a href="" className="text-blue-600 hover:underline">
-                        documentation
-                    </a>{" "}
-                    or{" "}
-                    <a href="" className="text-blue-600 hover:underline">
-                        contact support
-                    </a>
+                    <Link
+                        href="/dashboard?tutorial=true"
+                        className="text-blue-600 hover:underline"
+                    >
+                        help tab
+                    </Link>
                 </p>
             </div>
         </Card>

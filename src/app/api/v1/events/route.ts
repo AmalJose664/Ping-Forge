@@ -44,7 +44,7 @@ export const POST = async (req: NextRequest) => {
         })
         if (!user) {
             return NextResponse.json(
-                { message: "Invalid API key" },
+                { message: "Invalid API key or no user was found" },
                 { status: 401 }
             )
         }

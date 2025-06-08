@@ -5,7 +5,7 @@ import { Modal } from "@/components/ui/Modal"
 import { cn } from "@/utils"
 import { UserButton } from "@clerk/nextjs"
 import {
-    ArrowLeftSquare,
+    BadgeHelp,
     Gem,
     Home,
     Key,
@@ -96,7 +96,7 @@ const Sidebar = ({ onClose }: { onClose?: () => void }) => {
                                         router.push("/dashboard?tutorial=true")
                                     }
                                 >
-                                    <ArrowLeftSquare className="size-4 text-zinc-500 group-hover:text-zinc-700" />
+                                    <BadgeHelp className="size-4 text-zinc-500 group-hover:text-zinc-700" />
                                     Help
                                 </div>
                             </div>
