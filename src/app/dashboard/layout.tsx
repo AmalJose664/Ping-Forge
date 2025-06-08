@@ -4,10 +4,19 @@ import { buttonVariants } from "@/components/ui/button"
 import { Modal } from "@/components/ui/Modal"
 import { cn } from "@/utils"
 import { UserButton } from "@clerk/nextjs"
-import { Gem, Home, Key, LucideIcon, Menu, Settings, X } from "lucide-react"
+import {
+    ArrowLeftSquare,
+    Gem,
+    Home,
+    Key,
+    LucideIcon,
+    Menu,
+    Settings,
+    X,
+} from "lucide-react"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { PropsWithChildren, useState } from "react"
-import { Drawer } from "vaul"
 
 interface SidebarItem {
     href: string
@@ -43,6 +52,7 @@ const SIDEBAR_ITEMS: SidebarCategory[] = [
 ]
 
 const Sidebar = ({ onClose }: { onClose?: () => void }) => {
+    const router = useRouter()
     return (
         <div className="space-y-4 md:space-y-6 relative z-20 flex flex-col h-full">
             {/* logo */}
@@ -75,6 +85,20 @@ const Sidebar = ({ onClose }: { onClose?: () => void }) => {
                                         {item.text}
                                     </Link>
                                 ))}
+                                <div
+                                    className={cn(
+                                        buttonVariants({
+                                            variant: "ghost",
+                                        }),
+                                        "w-full justify-start group flex items-center gap-x-2.5 rounded-md px-2 py-1.5 text-sm font-medium leading-6 text-zinc-700 hover:bg-gray-50 transition"
+                                    )}
+                                    onClick={() =>
+                                        router.push("/dashboard?tutorial=true")
+                                    }
+                                >
+                                    <ArrowLeftSquare className="size-4 text-zinc-500 group-hover:text-zinc-700" />
+                                    Help
+                                </div>
                             </div>
                         </li>
                     ))}

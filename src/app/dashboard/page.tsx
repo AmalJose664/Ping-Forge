@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { PlusIcon } from "lucide-react"
 import { createCheckoutSession } from "@/lib/stripe"
 import PaymentSuccessModal from "@/components/PaymentSuccessModal"
+import DashboardTutorial from "./DashboardTutorial"
 interface PageProps {
     searchParams: {
         [key: string]: string | string[] | undefined
@@ -31,9 +32,16 @@ const Dashboard = async ({ searchParams }: PageProps) => {
         if (session.url) redirect(session.url)
     }
     const success = searchParams.success
+    let tutorial = searchParams.tutorial
+    if (success && tutorial) tutorial = undefined
     return (
         <>
             {success && <PaymentSuccessModal />}
+            {tutorial && (
+                <div className="relative ">
+                    <DashboardTutorial />
+                </div>
+            )}
             <DashboardPage
                 cta={
                     <CreateEventCategoryModal>

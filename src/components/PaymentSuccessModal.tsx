@@ -9,8 +9,10 @@ import { Button } from "./ui/button"
 import { CheckIcon } from "lucide-react"
 
 const PaymentSuccessModal = () => {
+    console.log("working")
+
     const router = useRouter()
-    const [isOpen, setIsOpen] = useState(false)
+    const [isOpen, setIsOpen] = useState(true)
 
     const { data, isPending } = useQuery({
         queryKey: ["user-plan"],

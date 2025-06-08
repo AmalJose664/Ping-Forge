@@ -6,10 +6,13 @@ import { z } from "zod"
 import { CATEGORY_NAME_VALIDAOTRS } from "@/lib/validators/category-validators"
 import { parseColor } from "@/utils"
 import { HTTPException } from "hono/http-exception"
+import { FREE_QUOTA, PRO_QUOTA } from "@/config"
 
 export const categoryRouter = router({
     getEventCategories: privateProcedure.query(async ({ c, ctx }) => {
-        console.log("Staring search ===>>>")
+        console.log(
+            "Staring search ===>>>================================================================================================"
+        )
 
         const categories = await db.eventCategory.findMany({
             where: { userId: ctx.user.id },
@@ -26,12 +29,11 @@ export const categoryRouter = router({
         console.log("Categories==>>>", categories)
 
         const categoriesWithCounts = await Promise.all(
-            categories.map(async (category) => {
+            categories.map(async (category, i) => {
                 const now = new Date()
-                console.log("Category==>>>", category)
+                console.log("Category==>>>number " + i, category)
 
                 const firstDayOfMonth = startOfMonth(now)
-                console.log("date====>", firstDayOfMonth)
 
                 const [uniqueFieldCount, eventsCounts, lastPing] =
                     await Promise.all([
@@ -45,29 +47,34 @@ export const categoryRouter = router({
                                 distinct: ["fields"],
                             })
                             .then((events) => {
-                                console.log("Events====>", events)
+                                console.log("All Events====>", events)
                                 const fieldNames = new Set<string>()
-                                events.forEach((event) => {
-                                    console.log("EVentt====>", event)
+                                events.forEach((event, i) => {
+                                    console.log(
+                                        "Single EVentt====> number " + i,
+                                        event
+                                    )
                                     Object.keys(event.fields as object).forEach(
                                         (fieldName) => {
                                             console.log(
-                                                "Field Name====>",
+                                                " Each Field Name====>",
                                                 fieldName
                                             )
                                             fieldNames.add(fieldName)
                                         }
                                     )
                                 })
-                                console.log("Set====>", fieldNames)
+                                //console.log("Set====>", fieldNames)
                                 return fieldNames.size
                             }),
+                        // second array element
                         db.event.count({
                             where: {
                                 EventCategory: { id: category.id },
                                 createdAt: { gte: firstDayOfMonth },
                             },
                         }),
+                        // third array element
                         db.event.findFirst({
                             where: { EventCategory: { id: category.id } },
                             orderBy: { createdAt: "desc" },
@@ -117,6 +124,27 @@ export const categoryRouter = router({
 
             const { user } = ctx
             const { color, name, emoji } = input
+            const categoryCount = await db.eventCategory.count({
+                where: { userId: user.id },
+            })
+
+            //return c.json({ eventCategory: "" })
+
+            if (
+                user.plan === "FREE" &&
+                categoryCount > FREE_QUOTA.maxEventCategories
+            ) {
+                throw new HTTPException(404, {
+                    message: `Max Categories reached for ${user.plan} plan`,
+                })
+            } else if (
+                user.plan === "PRO" &&
+                categoryCount > PRO_QUOTA.maxEventCategories
+            ) {
+                throw new HTTPException(404, {
+                    message: `Max Categories reached for ${user.plan} plan`,
+                })
+            }
 
             const eventCategory = await db.eventCategory.create({
                 data: {
@@ -135,7 +163,7 @@ export const categoryRouter = router({
                 data: [
                     { name: "bug", emoji: "🐛", color: 0xff6b6b },
                     { name: "sale", emoji: "💰", color: 0xffeb3b },
-                    { name: "question", emoji: "🤔", color: 0x6c5ce7 },
+                    { name: "sign up", emoji: "👤", color: 0x6c5ce7 },
                 ].map((category) => {
                     return { ...category, userId: ctx.user.id }
                 }),
@@ -158,6 +186,8 @@ export const categoryRouter = router({
                     },
                 },
             })
+            console.log("Poll category====>>>>>>>>", category)
+
             if (!category) {
                 throw new HTTPException(404, {
                     message: `Category '${name} not found'`,

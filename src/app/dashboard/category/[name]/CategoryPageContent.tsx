@@ -80,6 +80,8 @@ const CategoryPageContent = ({
         refetchOnWindowFocus: false,
         enabled: pollingData.hasEvents,
     })
+    console.log(data?.events)
+
     const columns: ColumnDef<Event>[] = useMemo(() => {
         return [
             {
