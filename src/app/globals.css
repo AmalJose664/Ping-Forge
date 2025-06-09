@@ -67,13 +67,14 @@
     }
 }
 
-body::-webkit-scrollbar {
-    background-color: rgb(160, 160, 160);
+*::-webkit-scrollbar {
+    background-color: black;
     scrollbar-width: thin;
-    border-radius: 14px;
+    border-radius: 4px;
     width: 6px;
+    height: 6px;
 }
-body::-webkit-scrollbar-thumb {
+*::-webkit-scrollbar-thumb {
     background-color: white;
     border-radius: 24px;
 }

@@ -1,3 +1,4 @@
+import CodeSnippet from "@/components/CodeSnippet"
 import Card from "@/components/ui/customCard"
 import { client } from "@/lib/client"
 import { codeSnippets } from "@/utils"
@@ -7,7 +8,7 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useEffect } from "react"
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter"
-import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism"
+import { nightOwl } from "react-syntax-highlighter/dist/esm/styles/prism"
 
 const EmptyCategoryState = ({ categoryName }: { categoryName: string }) => {
     const router = useRouter()
@@ -44,28 +45,14 @@ const EmptyCategoryState = ({ categoryName }: { categoryName: string }) => {
             <p className="text-sm/6 text-gray-600 mb-8 max-w-md text-pretty text-center">
                 Get Started by sending a request to our tracking API:
             </p>
-            <div className="w-full max-w-3xl bg-white rounded-lg shadow-lg overflow-hidden">
-                <div className="bg-gray-800 px-4 py-2 flex justify-between items-center">
-                    <div className="flex space-x-2">
-                        <div className="size-3 rounded-full bg-red-500" />
-                        <div className="size-3 rounded-full bg-yellow-500" />
-                        <div className="size-3 rounded-full bg-green-500" />
-                    </div>
-
-                    <div className="flex gap-3 items-center relative">
-                        <CopyIcon
-                            className="size-4 mr-1"
-                            color="white"
-                            onClick={copyCode}
-                        />
-                        <span className="text-gray-400 text-sm">
-                            yor-first-event.js
-                        </span>
-                    </div>
-                </div>
+            <CodeSnippet
+                fileName="your-first-event.js"
+                codeSnippet={codeSnippets.simpleCode.complete}
+                copyFunct={copyCode}
+            >
                 <SyntaxHighlighter
                     language="javascript"
-                    style={atomDark}
+                    style={nightOwl}
                     customStyle={{
                         borderRadius: "0px",
                         margin: "0",
@@ -76,7 +63,7 @@ const EmptyCategoryState = ({ categoryName }: { categoryName: string }) => {
                 >
                     {codeSnippets.simpleCode.complete}
                 </SyntaxHighlighter>
-            </div>
+            </CodeSnippet>
             <div className="mt-8 flex flex-col items-center space-x-2">
                 <div className="flex gap-2 items-center">
                     <div className="size-2 bg-green-500 rounded-full animate-ping" />

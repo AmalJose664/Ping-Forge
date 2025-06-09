@@ -3,7 +3,7 @@ import ApiDocs from "./ApiDocs"
 
 const Page = () => {
     return (
-        <DashboardPage title="Api Docs">
+        <DashboardPage title="Api Help">
             <ApiDocs />
         </DashboardPage>
     )

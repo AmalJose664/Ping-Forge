@@ -9,11 +9,9 @@ const REQUEST_VALIDATOR = z
         category: CATEGORY_NAME_VALIDAOTRS,
         fields: z.record(z.string().or(z.number()).or(z.boolean())).optional(),
         description: z.string().optional(),
-        appLink: z.string().url().optional(),
-        secondTitle: z.string().optional(),
-        secondSubText: z.string().optional(),
-        thumbnail: z.string().optional(),
-        bannerImg: z.string().url().optional(),
+        url: z.string().url().optional(),
+        iconAvatar: z.string().optional(),
+        imageBg: z.string().url().optional(),
         codeSnippet: z.string().optional(),
         footer: z
             .object({
@@ -147,15 +145,15 @@ export const POST = async (req: NextRequest) => {
 
             color: category.color,
             thumbnail: {
-                url: validationResult.thumbnail || "",
+                url: validationResult.iconAvatar || "",
             },
 
             image: {
-                url: validationResult.bannerImg || "",
+                url: validationResult.imageBg || "",
             },
 
             timestamp: new Date().toISOString(),
-            url: validationResult.appLink || "",
+            url: validationResult.url || "",
             author: {
                 name: validationResult.author?.name || "",
                 url: validationResult.author?.url || "",
