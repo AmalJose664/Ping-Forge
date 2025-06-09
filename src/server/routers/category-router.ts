@@ -226,7 +226,7 @@ export const categoryRouter = router({
                     break
                 }
             }
-            const [events, eventsCount, uniqueFieldCount] = await Promise.all([
+            const [events, eventsCount, uniqueFields] = await Promise.all([
                 db.event.findMany({
                     where: {
                         EventCategory: { name: name, userId: ctx.user.id },
@@ -262,9 +262,9 @@ export const categoryRouter = router({
                                 }
                             )
                         })
-                        return fieldNames.size
+                        return Array.from(fieldNames)
                     }),
             ])
-            return c.superjson({ events, eventsCount, uniqueFieldCount })
+            return c.superjson({ events, eventsCount, uniqueFields })
         }),
 })

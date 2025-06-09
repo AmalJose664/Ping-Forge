@@ -80,7 +80,6 @@ const CategoryPageContent = ({
         refetchOnWindowFocus: false,
         enabled: pollingData.hasEvents,
     })
-    console.log(data?.events)
 
     const columns: ColumnDef<Event>[] = useMemo(() => {
         return [
@@ -165,7 +164,6 @@ const CategoryPageContent = ({
             pagination,
         },
     })
-
     const numericFieldSums = useMemo(() => {
         if (!data?.events || data.events.length === 0) return {}
 
@@ -181,10 +179,10 @@ const CategoryPageContent = ({
         const now = new Date()
         const weekStart = startOfWeek(now, { weekStartsOn: 0 })
         const monthStart = startOfWeek(now)
+        console.log(data.events)
 
         data.events.forEach((event) => {
             const eventDate = event.createdAt
-
             Object.entries(event.fields as object).forEach(([field, value]) => {
                 if (typeof value === "number") {
                     if (!sums[field]) {
@@ -217,6 +215,40 @@ const CategoryPageContent = ({
         })
         return sums
     }, [data?.events])
+    console.log(numericFieldSums)
+
+    const TotalFields = () => {
+        return (
+            <Card>
+                <div className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <p className="text-sm/6 font-medium">Unique Fields</p>
+                    <BarChart className="size-4 text-muted-foreground" />
+                </div>
+                <div>
+                    <p className="text-2xl font-bold"></p>
+                    <p className="text-xs/5 text-muted-foreground">
+                        {activeTab === "today"
+                            ? "today"
+                            : activeTab === "week"
+                            ? "this week"
+                            : "this month"}
+                    </p>
+                    <ul>
+                        {data?.uniqueFields.map((item: any, key) => {
+                            return (
+                                <li
+                                    key={key}
+                                    className="flex flex-col gap-2 items-start justify-center"
+                                >
+                                    <div>{item}</div>
+                                </li>
+                            )
+                        })}
+                    </ul>
+                </div>
+            </Card>
+        )
+    }
 
     const NumericFieldSumCards = () => {
         if (Object.keys(numericFieldSums).length === 0) return null
@@ -231,16 +263,15 @@ const CategoryPageContent = ({
             return (
                 <>
                     <Card key={field}>
-                        <div className="flex flex-row items-center justify-between space-y-0 pb-2">
+                        <div className="flex flex-row items-center justify-between space-y-0">
                             <p className="text-sm/6 font-medium">
                                 {field.charAt(0).toUpperCase() + field.slice(1)}
                             </p>
                             <BarChart className="size-4 text-muted-foreground" />
                         </div>
+                        <p className="text-xs/8">Total Value</p>
                         <div>
-                            <p className="text-2xl font-bold">
-                                {releventSums.toFixed(2)}
-                            </p>
+                            <p className="text-2xl font-bold">{releventSums}</p>
                             <p className="text-xs/5 text-muted-foreground">
                                 {activeTab === "today"
                                     ? "today"
@@ -294,6 +325,8 @@ const CategoryPageContent = ({
                                 </p>
                             </div>
                         </Card>
+                        {data?.uniqueFields &&
+                            data?.uniqueFields.length > 0 && <TotalFields />}
                         <NumericFieldSumCards />
                     </div>
                 </TabsContent>
