@@ -7,8 +7,28 @@ import { z } from "zod"
 const REQUEST_VALIDATOR = z
     .object({
         category: CATEGORY_NAME_VALIDAOTRS,
-        fields: z.record(z.string().or(z.number().or(z.boolean()))).optional(),
+        fields: z.record(z.string().or(z.number()).or(z.boolean())).optional(),
         description: z.string().optional(),
+        appLink: z.string().url().optional(),
+        secondTitle: z.string().optional(),
+        secondSubText: z.string().optional(),
+        thumbnail: z.string().optional(),
+        bannerImg: z.string().url().optional(),
+        codeSnippet: z.string().optional(),
+        footer: z
+            .object({
+                text: z.string().default("Author").optional(),
+                icon_url: z.string().optional(),
+            })
+            .optional(),
+        outline: z.record(z.string().or(z.number()).or(z.boolean())).optional(),
+        author: z
+            .object({
+                name: z.string().default("Author"),
+                url: z.string().optional().default(""),
+                icon_url: z.string().optional(),
+            })
+            .optional(),
     })
     .strict()
 export const POST = async (req: NextRequest) => {
@@ -119,22 +139,55 @@ export const POST = async (req: NextRequest) => {
                 category.name.charAt(0).toUpperCase() + category.name.slice(1)
             }`,
             description:
-                validationResult.description ||
-                `A new ${category.name} event has occured !`,
+                (validationResult.description ||
+                    `A new ${category.name} event has occured !`) +
+                " \n```\n " +
+                validationResult.codeSnippet +
+                "\n```",
+
             color: category.color,
+            thumbnail: {
+                url: validationResult.thumbnail || "",
+            },
+
+            image: {
+                url: validationResult.bannerImg || "",
+            },
+
             timestamp: new Date().toISOString(),
-            fields: Object.entries(validationResult.fields || {}).map(
-                ([key, value]) => {
-                    if (key.startsWith("untrack_")) {
-                        key = key.split("untrack_")[1]
+            url: validationResult.appLink || "",
+            author: {
+                name: validationResult.author?.name || "",
+                url: validationResult.author?.url || "",
+                icon_url: validationResult.author?.icon_url || "",
+            },
+            fields: [
+                ...Object.entries(validationResult.fields || {}).map(
+                    ([key, value]) => {
+                        if (key.startsWith("untrack_")) {
+                            key = key.split("untrack_")[1]
+                        }
+                        return {
+                            name: key,
+                            value: String(value),
+                            inline: true,
+                        }
                     }
-                    return {
-                        name: key,
-                        value: String(value),
-                        inline: true,
+                ),
+                ...Object.entries(validationResult.outline || {}).map(
+                    ([key, value]) => {
+                        return {
+                            name: key,
+                            value: String("> " + value),
+                            inline: false,
+                        }
                     }
-                }
-            ),
+                ),
+            ],
+            footer: {
+                text: validationResult.footer?.text || "",
+                icon_url: validationResult.footer?.icon_url || "",
+            },
         }
         console.log("Discord going data====>>>>>", eventData)
 
@@ -149,7 +202,7 @@ export const POST = async (req: NextRequest) => {
         })
 
         try {
-            await discord.sendEmbed(dmChannel.id, eventData)
+            await discord.sendNiceEmbed(dmChannel.id, eventData)
             await db.event.update({
                 where: {
                     id: event.id,

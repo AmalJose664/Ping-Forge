@@ -1,5 +1,6 @@
 import Card from "@/components/ui/customCard"
 import { client } from "@/lib/client"
+import { codeSnippets } from "@/utils"
 import { useQuery } from "@tanstack/react-query"
 import { CopyIcon } from "lucide-react"
 import Link from "next/link"
@@ -28,21 +29,9 @@ const EmptyCategoryState = ({ categoryName }: { categoryName: string }) => {
     useEffect(() => {
         if (hasEvents) router.refresh()
     }, [hasEvents, router])
-    const codeSnippet = `await fetch('${process.env.NEXT_PUBLIC_APP_URL}/api/events', {
-  method: 'POST',
-  headers: {
-    'Authorization': 'Bearer YOUR_API_KEY'
-  },
-  body: JSON.stringify({
-    category: '${categoryName}',
-    fields: {
-      field1: 'value1', // for example: user id
-      field2: 'value2' // for example: user email
-    }
-  })
-})`
+
     const copyCode = () => {
-        navigator.clipboard.writeText(codeSnippet)
+        navigator.clipboard.writeText(codeSnippets.simpleCode.complete)
     }
     return (
         <Card
@@ -85,12 +74,12 @@ const EmptyCategoryState = ({ categoryName }: { categoryName: string }) => {
                         lineHeight: "1.5",
                     }}
                 >
-                    {codeSnippet}
+                    {codeSnippets.simpleCode.complete}
                 </SyntaxHighlighter>
             </div>
             <div className="mt-8 flex flex-col items-center space-x-2">
                 <div className="flex gap-2 items-center">
-                    <div className="size-2 bg-green-500 rounded-full animate-pulse" />
+                    <div className="size-2 bg-green-500 rounded-full animate-ping" />
                     <span className="text-sm text-gray-600 ">
                         Listening to incoming events...
                     </span>

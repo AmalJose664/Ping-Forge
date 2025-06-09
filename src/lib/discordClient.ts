@@ -5,6 +5,7 @@ import {
     Routes,
     APIEmbed,
 } from "discord-api-types/v10"
+
 export class DiscordClient {
     private rest: REST
 
@@ -19,8 +20,15 @@ export class DiscordClient {
             body: { recipient_id: userId },
         }) as Promise<RESTPostAPICurrentUserCreateDMChannelResult>
     }
-
     async sendEmbed(
+        channelId: string,
+        embed: APIEmbed
+    ): Promise<RESTPostAPIChannelMessageResult> {
+        return this.rest.post(Routes.channelMessages(channelId), {
+            body: { embeds: [embed] },
+        }) as Promise<RESTPostAPIChannelMessageResult>
+    }
+    async sendNiceEmbed(
         channelId: string,
         embed: APIEmbed
     ): Promise<RESTPostAPIChannelMessageResult> {

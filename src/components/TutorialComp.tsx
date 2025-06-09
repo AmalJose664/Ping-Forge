@@ -28,7 +28,6 @@ const TutorialComp = () => {
         <ThirdTab />,
         <FourthTab />,
     ]
-    console.log(tutoState)
 
     return (
         <div>
@@ -152,7 +151,7 @@ function SecondTab({ closeTab }: { closeTab: (str: string) => void }) {
 
             <div className=" flex flex-col">
                 <p className="text-sm/6 text-gray-600 max-w-prose mt-2 mb-8">
-                    Add new Category &lt;category&gt;
+                    Add new Category
                 </p>
             </div>
         </div>
@@ -212,6 +211,7 @@ function FourthTab() {
   },
   body: JSON.stringify({
     category: '<valid category name>',
+	description: "",
     fields: {
       field1: 'value1', // for example: user id
       field2: 'value2' // for example: user email

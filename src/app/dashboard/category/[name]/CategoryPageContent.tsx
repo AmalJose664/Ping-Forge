@@ -107,14 +107,17 @@ const CategoryPageContent = ({
             },
 
             ...(data?.events[0]
-                ? Object.keys(data.events[0].fields as object).map((field) => ({
-                      accesorFn: (row: Event) =>
-                          (row.fields as Record<string, any>)[field],
-                      header: field,
-                      cell: ({ row }: { row: Row<Event> }) =>
-                          (row.original.fields as Record<string, any>)[field] ||
-                          "-",
-                  }))
+                ? Object.keys(data.events[0].fields as object)
+                      .filter((field) => !field.startsWith("untrack"))
+                      .map((field) => ({
+                          accesorFn: (row: Event) =>
+                              (row.fields as Record<string, any>)[field],
+                          header: field,
+                          cell: ({ row }: { row: Row<Event> }) =>
+                              (row.original.fields as Record<string, any>)[
+                                  field
+                              ] || "-",
+                      }))
                 : []),
 
             {

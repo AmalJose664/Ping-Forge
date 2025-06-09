@@ -6,6 +6,8 @@ import { cn } from "@/utils"
 import { UserButton } from "@clerk/nextjs"
 import {
     BadgeHelp,
+    Cable,
+    CodeXml,
     Gem,
     Home,
     Key,
@@ -49,6 +51,17 @@ const SIDEBAR_ITEMS: SidebarCategory[] = [
             },
         ],
     },
+    {
+        category: "Help",
+        items: [
+            { href: "/dashboard/api-doc", icon: CodeXml, text: "API" },
+            {
+                href: "/dashboard?tutorial=true",
+                icon: Cable,
+                text: "Connect",
+            },
+        ],
+    },
 ]
 
 const Sidebar = ({ onClose }: { onClose?: () => void }) => {
@@ -85,20 +98,6 @@ const Sidebar = ({ onClose }: { onClose?: () => void }) => {
                                         {item.text}
                                     </Link>
                                 ))}
-                                <div
-                                    className={cn(
-                                        buttonVariants({
-                                            variant: "ghost",
-                                        }),
-                                        "w-full justify-start group flex items-center gap-x-2.5 rounded-md px-2 py-1.5 text-sm font-medium leading-6 text-zinc-700 hover:bg-gray-50 transition"
-                                    )}
-                                    onClick={() =>
-                                        router.push("/dashboard?tutorial=true")
-                                    }
-                                >
-                                    <BadgeHelp className="size-4 text-zinc-500 group-hover:text-zinc-700" />
-                                    Help
-                                </div>
                             </div>
                         </li>
                     ))}
