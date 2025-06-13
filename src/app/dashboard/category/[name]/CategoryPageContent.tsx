@@ -179,7 +179,6 @@ const CategoryPageContent = ({
         const now = new Date()
         const weekStart = startOfWeek(now, { weekStartsOn: 0 })
         const monthStart = startOfWeek(now)
-        console.log(data.events)
 
         data.events.forEach((event) => {
             const eventDate = event.createdAt
@@ -215,7 +214,6 @@ const CategoryPageContent = ({
         })
         return sums
     }, [data?.events])
-    console.log(numericFieldSums)
 
     const TotalFields = () => {
         return (
