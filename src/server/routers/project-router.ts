@@ -26,13 +26,6 @@ export const projectRouter = router({
         const limits = user.plan === "PRO" ? PRO_QUOTA : FREE_QUOTA
 
         const resetDate = addMonths(currentDate, 1)
-        console.log({
-            categoriesUsed: categoryCount,
-            categoryLimit: limits.maxEventCategories,
-            eventsUsed: eventCount,
-            eventsLimits: limits.maxEventsPerMonth,
-            resetDate,
-        })
 
         return c.json({
             categoriesUsed: categoryCount,

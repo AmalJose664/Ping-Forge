@@ -15,7 +15,7 @@ const Page = async () => {
     if (!user) redirect("/sign-in")
 
     return (
-        <DashboardPage title="Pro Membership">
+        <DashboardPage title="Plan Usage">
             <UpgradePageContent plan={user.plan} />
         </DashboardPage>
     )

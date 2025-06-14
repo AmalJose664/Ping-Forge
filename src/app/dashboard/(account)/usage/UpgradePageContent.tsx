@@ -4,7 +4,7 @@ import { client } from "@/lib/client"
 import { Plan } from "@prisma/client"
 import { useMutation, useQuery } from "@tanstack/react-query"
 import { format } from "date-fns"
-import { BarChart } from "lucide-react"
+import { CalendarCheck2, ChartColumnStacked } from "lucide-react"
 import { useRouter } from "next/navigation"
 
 const UpgradePageContent = ({ plan }: { plan: Plan }) => {
@@ -42,7 +42,7 @@ const UpgradePageContent = ({ plan }: { plan: Plan }) => {
                 <Card className="border-2 border-brand-700">
                     <div className="flex flex-row items-center justify-between space-y-0 pb-2">
                         <p className="text-sm/6 font-medium">Total Events</p>
-                        <BarChart className="size-4 text-muted-foreground" />
+                        <CalendarCheck2 className="size-4 text-muted-foreground" />
                     </div>
                     <div>
                         <p className="text-2xl font-bold">
@@ -59,7 +59,7 @@ const UpgradePageContent = ({ plan }: { plan: Plan }) => {
                         <p className="text-sm/6 font-medium">
                             Events Categories
                         </p>
-                        <BarChart className="size-4 text-muted-foreground" />
+                        <ChartColumnStacked className="size-4 text-muted-foreground" />
                     </div>
                     <div>
                         <p className="text-2xl font-bold">
@@ -80,7 +80,7 @@ const UpgradePageContent = ({ plan }: { plan: Plan }) => {
                 ) : (
                     <span className="animate-pulse w-8 h-4 bg-gray-200"></span>
                 )}
-                {plan !== "PRO" ? (
+                {/* {plan !== "PRO" ? (
                     <span
                         onClick={() => createCheckOutSession()}
                         className="inline cursor-pointer underline text-brand-600"
@@ -88,7 +88,7 @@ const UpgradePageContent = ({ plan }: { plan: Plan }) => {
                         {" "}
                         or upgrade now to increase your limit &rarr;
                     </span>
-                ) : null}
+                ) : null} */}
             </p>
         </div>
     )

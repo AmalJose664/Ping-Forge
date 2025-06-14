@@ -10,10 +10,6 @@ import { FREE_QUOTA, PRO_QUOTA } from "@/config"
 
 export const categoryRouter = router({
     getEventCategories: privateProcedure.query(async ({ c, ctx }) => {
-        console.log(
-            "Staring search ===>>>================================================================================================"
-        )
-
         const categories = await db.eventCategory.findMany({
             where: { userId: ctx.user.id },
             select: {
@@ -26,12 +22,10 @@ export const categoryRouter = router({
             },
             orderBy: { updatedAt: "desc" },
         })
-        console.log("Categories==>>>", categories)
 
         const categoriesWithCounts = await Promise.all(
-            categories.map(async (category, i) => {
+            categories.map(async (category) => {
                 const now = new Date()
-                console.log("Category==>>>number " + i, category)
 
                 const firstDayOfMonth = startOfMonth(now)
 
@@ -47,24 +41,14 @@ export const categoryRouter = router({
                                 distinct: ["fields"],
                             })
                             .then((events) => {
-                                console.log("All Events====>", events)
                                 const fieldNames = new Set<string>()
                                 events.forEach((event, i) => {
-                                    console.log(
-                                        "Single EVentt====> number " + i,
-                                        event
-                                    )
                                     Object.keys(event.fields as object).forEach(
                                         (fieldName) => {
-                                            console.log(
-                                                " Each Field Name====>",
-                                                fieldName
-                                            )
                                             fieldNames.add(fieldName)
                                         }
                                     )
                                 })
-                                //console.log("Set====>", fieldNames)
                                 return fieldNames.size
                             }),
                         // second array element
@@ -90,8 +74,6 @@ export const categoryRouter = router({
                 }
             })
         )
-        console.log("Last Output===>>>", categoriesWithCounts)
-        console.log("search End ===>>>")
         return c.superjson({ categories: categoriesWithCounts })
     }),
 
@@ -120,8 +102,6 @@ export const categoryRouter = router({
             })
         )
         .mutation(async ({ c, input, ctx }) => {
-            console.log("Received log")
-
             const { user } = ctx
             const { color, name, emoji } = input
             const categoryCount = await db.eventCategory.count({
@@ -186,7 +166,6 @@ export const categoryRouter = router({
                     },
                 },
             })
-            console.log("Poll category====>>>>>>>>", category)
 
             if (!category) {
                 throw new HTTPException(404, {

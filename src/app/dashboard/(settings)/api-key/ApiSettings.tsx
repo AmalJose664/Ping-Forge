@@ -4,23 +4,24 @@ import Card from "@/components/ui/customCard"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { CheckIcon, ClipboardIcon } from "lucide-react"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 const ApiSettings = ({ apiKey }: { apiKey: string }) => {
     const [copySuccess, setCopySuccess] = useState(false)
 
-    let timer: ReturnType<typeof setTimeout>
+    const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
     const copyApiKey = () => {
         navigator.clipboard.writeText(apiKey)
         setCopySuccess(true)
 
-        timer = setTimeout(() => {
+        timerRef.current = setTimeout(() => {
             setCopySuccess(false)
         }, 2000)
     }
     useEffect(() => {
         return () => {
-            if (timer) clearTimeout(timer)
+            if (timerRef.current) clearTimeout(timerRef.current)
         }
     }, [])
     return (

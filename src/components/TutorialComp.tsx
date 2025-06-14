@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Modal } from "./ui/Modal"
 import { ArrowLeft, ArrowRight, CopyIcon, PlusIcon } from "lucide-react"
 import Link from "next/link"
@@ -23,10 +23,10 @@ const TutorialComp = () => {
         setShowTuto(false)
     }
     const tutoPages = [
-        <FirstTab />,
-        <SecondTab closeTab={closeTab} />,
-        <ThirdTab />,
-        <FourthTab />,
+        <FirstTab key={1} />,
+        <SecondTab key={2} closeTab={closeTab} />,
+        <ThirdTab key={3} />,
+        <FourthTab key={4} />,
     ]
 
     return (
@@ -218,16 +218,16 @@ function FourthTab() {
     }
   })
 })`
-    let timer: ReturnType<typeof setTimeout> | undefined
+    const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
     const [copy, setCopy] = useState(false)
     const copyCode = () => {
         setCopy(true)
         navigator.clipboard.writeText(codeSnippet)
-        timer = setTimeout(() => setCopy(false), 1500)
+        timerRef.current = setTimeout(() => setCopy(false), 1500)
     }
     useEffect(() => {
         return () => {
-            if (timer) clearTimeout(timer)
+            if (timerRef.current) clearTimeout(timerRef.current)
         }
     }, [])
 

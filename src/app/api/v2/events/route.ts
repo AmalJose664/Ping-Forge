@@ -187,7 +187,6 @@ export const POST = async (req: NextRequest) => {
                 icon_url: validationResult.footer?.icon_url || "",
             },
         }
-        console.log("Discord going data====>>>>>", eventData)
 
         const event = await db.event.create({
             data: {

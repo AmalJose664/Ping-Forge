@@ -44,7 +44,10 @@ const DashboardEmptyState = () => {
                     <span>{isPending ? "Creating..." : "Quickstart"}</span>
                 </Button>
 
-                <CreateEventCategoryModal className="w-full sm:w-auto">
+                <CreateEventCategoryModal
+                    addStart={false}
+                    className="w-full sm:w-auto"
+                >
                     <Button className="flex items-center space-x-2 w-full sm:w-auto ">
                         <span className="">Add Category</span>
                     </Button>

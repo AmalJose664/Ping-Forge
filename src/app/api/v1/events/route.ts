@@ -136,7 +136,6 @@ export const POST = async (req: NextRequest) => {
                 }
             ),
         }
-        console.log("Discord going data====>>>>>", eventData)
 
         const event = await db.event.create({
             data: {

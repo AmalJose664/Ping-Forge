@@ -23,6 +23,7 @@ const WelcomePage = () => {
 
     useEffect(() => {
         if (data?.isSynced) router.push("/dashboard")
+        else router.push("/sing-in")
     }, [data, router])
 
     return (

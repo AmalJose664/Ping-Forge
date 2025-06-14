@@ -5,8 +5,8 @@ import { Modal } from "@/components/ui/Modal"
 import { cn } from "@/utils"
 import { UserButton } from "@clerk/nextjs"
 import {
-    BadgeHelp,
     Cable,
+    ChartLine,
     CodeXml,
     Gem,
     Home,
@@ -38,7 +38,10 @@ const SIDEBAR_ITEMS: SidebarCategory[] = [
     },
     {
         category: "Account",
-        items: [{ href: "/dashboard/upgrade", icon: Gem, text: "Upgrade" }],
+        items: [
+            { href: "/dashboard/usage", icon: ChartLine, text: "Usage" },
+            { href: "/pricing", icon: Gem, text: "Upgrade" },
+        ],
     },
     {
         category: "Settings",
