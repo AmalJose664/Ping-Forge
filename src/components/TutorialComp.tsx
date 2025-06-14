@@ -32,12 +32,12 @@ const TutorialComp = () => {
     return (
         <div>
             <Modal
-                className="p-8"
+                className="p-8 relative"
                 showModal={showTuto}
                 setShowModal={modalClose}
             >
                 <div>
-                    <div className="absolute bg-brand-600 top-14 rounded-full left-[50%] pt-1 w-8 h-8 text-center text-white">
+                    <div className="absolute bg-brand-600 top-14 rounded-full left-[48%] pt-1 w-8 h-8 text-center text-white">
                         {tutoState + 1}
                     </div>
                     <h2 className="text-xl/8 font-medium tracking-tight text-gray-900">
