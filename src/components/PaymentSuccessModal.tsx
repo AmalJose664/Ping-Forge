@@ -64,7 +64,7 @@ const PaymentSuccessModal = () => {
                             </p>
                             <p className="text-gray-600 text-sm/6 text-pretty">
                                 Thank you for upgrading to Pro and supporting
-                                PingPanda. Your account has been upgraded.
+                                PingForge. Your account has been upgraded.
                             </p>
                         </div>
                         <div className="mt-8 w-full">

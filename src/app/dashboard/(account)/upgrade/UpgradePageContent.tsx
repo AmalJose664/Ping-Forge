@@ -34,7 +34,7 @@ const UpgradePageContent = ({ plan }: { plan: Plan }) => {
                 </h1>
                 <p className="text-sm/6 text-gray-600 max-w-prose">
                     {plan === "PRO"
-                        ? "Thank you for your supporting PingPanda. Find your increased usage limits below."
+                        ? "Thank you for your supporting PingForge. Find your increased usage limits below."
                         : "Get access to more events, categories and premium support."}
                 </p>
             </div>

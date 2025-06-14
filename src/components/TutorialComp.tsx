@@ -41,7 +41,7 @@ const TutorialComp = () => {
                         {tutoState + 1}
                     </div>
                     <h2 className="text-xl/8 font-medium tracking-tight text-gray-900">
-                        Ping<span className="text-blue-700">Panda</span>
+                        Ping<span className="text-blue-700">Forge</span>
                     </h2>
                     <p className="text-sm/6 text-gray-600 max-w-prose mt-2 mb-8">
                         Quick Help

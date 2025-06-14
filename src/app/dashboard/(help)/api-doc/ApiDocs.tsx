@@ -300,7 +300,7 @@ const ApiDocs = () => {
                 <p className="text-xs/6 text-brand-700">
                     <Link
                         target="_blank"
-                        href="https://support.discord.com/hc/en-us/articles/210298617-Markdown-Text-101-Chat-Formatting-Bold-Italic-Underline?utm_source=pingpanda.com"
+                        href="https://support.discord.com/hc/en-us/articles/210298617-Markdown-Text-101-Chat-Formatting-Bold-Italic-Underline?utm_source=pingforge.com"
                     >
                         Visit Discord page for more knowledge
                     </Link>

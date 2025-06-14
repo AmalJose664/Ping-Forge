@@ -32,13 +32,13 @@ const AccountSettings = ({
                     setShowModal={setShowTip}
                 >
                     <h2 className="text-xl/8 font-medium tracking-tight text-gray-900">
-                        Ping<span className="text-blue-700">Panda</span>
+                        Ping<span className="text-blue-700">Forge</span>
                     </h2>
                     <div className="flex justify-center items-start gap-6">
                         <Info className="size-10 mt-2" />{" "}
                         <p className="text-sm/6 text-gray-600 max-w-prose mt-2 mb-8">
                             Discord notifications can be only received after
-                            adding our Ping Panda App to one of your own server
+                            adding our PingForge App to one of your own server
                             or by joining our server
                         </p>
                     </div>
@@ -98,7 +98,7 @@ const AccountSettings = ({
                                         target="_blank"
                                         href="https://discord.com/oauth2/authorize?client_id=1381237286859051079&permissions=0&integration_type=0&scope=bot"
                                     >
-                                        Add Ping Panda App
+                                        Add PingForge App
                                     </Link>
                                 </Button>
                             </div>

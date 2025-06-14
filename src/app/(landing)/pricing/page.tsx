@@ -42,7 +42,7 @@ const Page = () => {
                     </Heading>
                     <p className="mt-6 text-base/7 text-gray-600 max-w-prose text-center text-pretty">
                         We hate subscriptions. And chances are, you do too.
-                        That's why we offer lifetime access to PingPanda for a
+                        That's why we offer lifetime access to PingForge for a
                         one-time payment.
                     </p>
                 </div>
@@ -54,7 +54,7 @@ const Page = () => {
                         </h3>
 
                         <p className="mt-6 text-base/7 text-gray-600">
-                            Invest once in PingPanda and transform how you
+                            Invest once in PingForge and transform how you
                             monitor your SaaS forever. Get instant alerts, track
                             critical metrics and never miss a beat in your
                             business growth.
@@ -95,7 +95,7 @@ const Page = () => {
                                     onClick={handleGetAccess}
                                     className="mt-6 px-20"
                                 >
-                                    Get PingPanda
+                                    Get PingForge
                                 </Button>
                                 <p className="mt-6 text-xs leading-5 text-gray-600">
                                     Secure payment. Start monitoring in minutes.
