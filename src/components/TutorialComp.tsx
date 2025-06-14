@@ -2,7 +2,13 @@
 
 import { useEffect, useRef, useState } from "react"
 import { Modal } from "./ui/Modal"
-import { ArrowLeft, ArrowRight, CopyIcon, PlusIcon } from "lucide-react"
+import {
+    ArrowLeft,
+    ArrowRight,
+    CopyIcon,
+    ExternalLink,
+    PlusIcon,
+} from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Button } from "./ui/button"
@@ -130,6 +136,7 @@ function FirstTab() {
                             className="underline text-brand-600"
                         >
                             here
+                            <ExternalLink className="size-3 inline ml-1" />
                         </Link>
                     </p>
                 </div>
@@ -176,15 +183,22 @@ function ThirdTab() {
                     href="https://discord.com/oauth2/authorize?client_id=1381237286859051079&permissions=0&integration_type=0&scope=bot"
                 >
                     here
+                    <ExternalLink className="size-3 inline ml-1" />
                 </Link>
             </p>
             <p className="mb-3">
                 <span className="flex gap-6 text-gray-700">
-                    <span>https://discord.com/o...</span>
+                    <span className="p-1 text-center rounded bg-brand-500">
+                        https://discord.com/o...
+                    </span>
                     <span>&#11106;</span>
-                    <span>Add server</span>
+                    <span className="p-1 text-center rounded bg-brand-500">
+                        Add server
+                    </span>
                     <span>&#11106;</span>
-                    <span>Authorize</span>
+                    <span className="p-1 text-center rounded bg-brand-500">
+                        Authorize
+                    </span>
                 </span>
             </p>
             <p className="text-sm/6 text-gray-600 max-w-prose ">or</p>
@@ -195,7 +209,8 @@ function ThirdTab() {
                     href="https://discord.gg/9cY9D4Eq"
                     target="_blank"
                 >
-                    our Discord server
+                    our Discord server{" "}
+                    <ExternalLink className="size-3 inline ml-1" />
                 </Link>{" "}
                 to receive DM notifications and updates and more !!
             </p>

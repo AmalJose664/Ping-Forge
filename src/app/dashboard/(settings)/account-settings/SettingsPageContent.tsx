@@ -7,7 +7,12 @@ import { client } from "@/lib/client"
 import { useMutation } from "@tanstack/react-query"
 import Link from "next/link"
 import { useState } from "react"
-import { Info, Link as LinkSvg, MessageCircleQuestion } from "lucide-react"
+import {
+    ExternalLink,
+    Info,
+    Link as LinkSvg,
+    MessageCircleQuestion,
+} from "lucide-react"
 import { Modal } from "@/components/ui/Modal"
 
 const AccountSettings = ({
@@ -63,7 +68,8 @@ const AccountSettings = ({
                         }
                         className="text-brand-600 hover:text-brand-500"
                     >
-                        Learn how to obtain it here
+                        Learn how to obtain it here{" "}
+                        <ExternalLink className="size-3 inline ml-1" />
                     </Link>
                 </p>
                 <div className="pt-4">
@@ -76,7 +82,9 @@ const AccountSettings = ({
                 </div>
             </Card>
             <div className="mt-4 rounded bg-gray-100 flex flex-col justify-center items-start sm:items-start lg:items-center p-3 sm:p-3 lg:p-6 border w-full sm:w-56 lg:w-[36rem]">
-                <p className="text-lg/6 text-gray-600">Enable App in Discord</p>
+                <p className="text-lg/6 text-gray-600">
+                    Enable App in Discord{" "}
+                </p>
                 <Card className="max-w-xl mt-4 w-full relative">
                     <div
                         onClick={() => setShowTip(true)}
@@ -99,6 +107,7 @@ const AccountSettings = ({
                                         href="https://discord.com/oauth2/authorize?client_id=1381237286859051079&permissions=0&integration_type=0&scope=bot"
                                     >
                                         Add PingForge App
+                                        <ExternalLink className="size-3 inline ml-2" />
                                     </Link>
                                 </Button>
                             </div>
@@ -127,7 +136,8 @@ const AccountSettings = ({
                                 className="text-blue-700 underline"
                                 href="https://discord.gg/9cY9D4Eq"
                             >
-                                Join
+                                Join{" "}
+                                <ExternalLink className="size-3 inline ml-1" />
                             </Link>
                         </div>
                     </div>

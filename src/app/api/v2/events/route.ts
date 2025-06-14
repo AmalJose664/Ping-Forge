@@ -70,7 +70,7 @@ export const POST = async (req: NextRequest) => {
             return NextResponse.json(
                 {
                     message:
-                        "Please Enter your discord ID in your account setings",
+                        "Please Enter your discord ID in your account setings, No discord id found",
                 },
                 { status: 403 }
             )

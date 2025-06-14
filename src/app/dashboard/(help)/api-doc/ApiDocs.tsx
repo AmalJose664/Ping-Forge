@@ -9,7 +9,7 @@ import {
     TableRow,
 } from "@/components/ui/table"
 import { codeSnippets } from "@/utils"
-import { CopyIcon, Info } from "lucide-react"
+import { CopyIcon, ExternalLink, Info } from "lucide-react"
 import Link from "next/link"
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter"
 import { nightOwl as atomDark } from "react-syntax-highlighter/dist/esm/styles/prism"
@@ -302,7 +302,8 @@ const ApiDocs = () => {
                         target="_blank"
                         href="https://support.discord.com/hc/en-us/articles/210298617-Markdown-Text-101-Chat-Formatting-Bold-Italic-Underline?utm_source=pingforge.com"
                     >
-                        Visit Discord page for more knowledge
+                        Visit Discord page for more knowledge{" "}
+                        <ExternalLink className="size-3 inline ml-1" />
                     </Link>
                 </p>
             </div>
