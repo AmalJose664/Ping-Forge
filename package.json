@@ -8,7 +8,6 @@
         "start": "next start",
         "lint": "next lint",
         "deploy": "wrangler deploy",
-        "postbuild": "next-sitemap",
         "postinstall": "prisma generate"
     },
     "dependencies": {
