@@ -14,8 +14,13 @@ const eb_garamond = EB_Garamond({
 })
 
 export const metadata: Metadata = {
-    title: "jStack App",
-    description: "Created using jStack",
+    title: "PingForge",
+    description:
+        "Moniter your saas app. Know every events, signup, sales, bugs etc directly to your discord.",
+    other: {
+        "google-site-verification":
+            "92bToywbbFejSlFVPeFVbngM-TBSjv4GPfJCQa2OONc",
+    },
     icons: [{ rel: "icon", url: "/favicon.ico" }],
 }
 
