@@ -1,6 +1,5 @@
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
-import { db } from "./db"
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs))
@@ -30,8 +29,8 @@ export const codeSnippets = {
         fields: `fields: {
       field1: 'value1', // for example: user id
       field2: 'value2' // for example: user email
-	  untrack_field2: 'value2' // for example: Any untracking field and value
-	  untrack_field2: 'value2' // for example: Any untracking field and value
+	  untrack_field1: 'value1' // for example: Any untracking field and value => untrack_name: ""
+	  untrack_field2: 'value2' // for example: Any untracking field and value  => untrack_count: 20
     }`,
     },
 
@@ -89,8 +88,8 @@ export const codeSnippets = {
         fields: `fields: {
       field1: 'value1', // for example: user id
       field2: 'value2' // for example: user email
-	  untrack_field2: 'value2' // for example: Any untracking field and value
-	  untrack_field2: 'value2' // for example: Any untracking field and value
+	  untrack_field1: 'value2' // for example: Any untracking field and value => untrack_name: ""
+	  untrack_field2: 'value2' // for example: Any untracking field and value => untrack_count: 20
     }`,
         outline: `outline:{
     field1: 'value1', // for example: user id

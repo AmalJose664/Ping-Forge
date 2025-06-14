@@ -98,7 +98,7 @@ const ApiDocs = () => {
 
             <div className="p-6 bg-white rounded">
                 <h1 className="my-3 text-2xl/8 font-medium tracking-tight text-gray-900">
-                    Detailed Response
+                    Detailed Request
                 </h1>
                 <CodeSnippet
                     fileName="detailed.js"
@@ -274,7 +274,7 @@ const ApiDocs = () => {
                 </div>
                 <div className="bg-gray-100 my-3 px-6 py-2 rounded-md">
                     <h1 className="mt-3 mb-5 text-2xl/8 font-medium tracking-tight text-gray-900">
-                        Complete code
+                        Complete Code
                     </h1>
 
                     <CodeSnippet
