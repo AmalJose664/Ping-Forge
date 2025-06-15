@@ -3,10 +3,7 @@ import MaxWidthWrapper from "@/components/MaxWidthWrapper"
 import { Check, Star } from "lucide-react"
 import ShinyButton from "@/components/ShinyButton"
 import MockDiscordUi from "@/components/MockDiscordUi"
-import {
-    AnimatedList,
-    AnimatedListItem,
-} from "@/components/magicui/animated-list"
+import { AnimatedList } from "@/components/magicui/animated-list"
 import DiscordMessage from "@/components/DiscordMessage"
 import Image from "next/image"
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter"
