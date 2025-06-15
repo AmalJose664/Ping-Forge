@@ -7,8 +7,8 @@ import { currentUser } from "@clerk/nextjs/server"
 import { auth } from "@/lib/auth"
 
 const Navbar = async () => {
-    const user = await currentUser()
-    const session = await auth()
+    const user = false//await currentUser()
+    // const session = await auth()
 
     return (
         <nav className="sticky h-16 z-[100] inset-x-0 top-0 w-full border-b border-gray-200 bg-white/80 backdrop-blur-lg transition-all">

@@ -1,11 +1,17 @@
 import { redirect } from "next/navigation"
 import { auth } from "@/lib/auth"
+import NewSigninComp from "@/components/NewSigninComp"
 const Page = async () => {
     const session = await auth()
-    if (session) redirect("/")
+    if (session) {
+        console.log(session)
+        redirect("/")
+    }
 
     return (
-        <div className="w-full flex-1 flex items-center justify-center"></div>
+        <div className="w-full flex-1 flex items-center justify-center">
+            <NewSigninComp />
+        </div>
     )
 }
 export default Page
