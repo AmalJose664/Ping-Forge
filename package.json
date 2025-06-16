@@ -12,7 +12,6 @@
     },
     "dependencies": {
         "@auth/neon-adapter": "^1.9.1",
-        "@clerk/nextjs": "^6.20.2",
         "@discordjs/rest": "^2.5.0",
         "@hookform/resolvers": "^5.0.1",
         "@neondatabase/serverless": "^0.9.5",
