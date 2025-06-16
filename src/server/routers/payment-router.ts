@@ -6,7 +6,7 @@ export const paymentRouter = router({
     createCheckoutSession: privateProcedure.mutation(async ({ c, ctx }) => {
         const { user } = ctx
         const session = await createCheckoutSession({
-            userEmail: user.email,
+            userEmail: user.email || "",
             userId: user.id,
         })
 

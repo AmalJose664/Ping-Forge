@@ -2,8 +2,8 @@
 
 import { buttonVariants } from "@/components/ui/button"
 import { Modal } from "@/components/ui/Modal"
+import { useSession } from "next-auth/react"
 import { cn } from "@/utils"
-import { UserButton } from "@clerk/nextjs"
 import {
     Cable,
     ChartLine,
@@ -17,8 +17,9 @@ import {
     X,
 } from "lucide-react"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
 import { PropsWithChildren, useState } from "react"
+import { AnimatePresence } from "motion/react"
+import ShowUserComp from "@/components/ShowUserComp"
 
 interface SidebarItem {
     href: string
@@ -68,7 +69,9 @@ const SIDEBAR_ITEMS: SidebarCategory[] = [
 ]
 
 const Sidebar = ({ onClose }: { onClose?: () => void }) => {
-    const router = useRouter()
+    const { data } = useSession()
+    const [showUser, setShowUser] = useState(false)
+
     return (
         <div className="space-y-4 md:space-y-6 relative z-20 flex flex-col h-full">
             {/* logo */}
@@ -110,14 +113,44 @@ const Sidebar = ({ onClose }: { onClose?: () => void }) => {
             <div className="flex flex-col">
                 <hr className="my-4 md:my-6 w-full h-px bg-gray-100" />
 
-                <UserButton
-                    showName
-                    appearance={{
-                        elements: {
-                            userButtonBox: "flex-row-reverse",
-                        },
-                    }}
-                />
+                <div
+                    className="flex relative items-center gap-7"
+                    onClick={() => setShowUser(true)}
+                >
+                    <img
+                        src={data?.user?.image || ""}
+                        className="size-7 rounded object-cover"
+                        alt="User Image"
+                    />
+                    <p className="text-base font-semibold">
+                        {data?.user?.name}
+                    </p>
+                    <AnimatePresence>
+                        {showUser && (
+                            <ShowUserComp data={data} closeFn={setShowUser} />
+                        )}
+                    </AnimatePresence>
+                </div>
+
+                {/* <Modal
+                    showModal={!!showUser}
+                    setShowModal={setShowUser}
+                    className="max-w-md p-8"
+                >
+                    <div className="flex flex-col items-center justify-center gap-5">
+                        <div>
+                            <img
+                                src={data?.user?.image || ""}
+                                className="size-16 rounded"
+                                alt="User Image"
+                            />
+                        </div>
+                        <div>
+                            <h3>{data?.user?.email}</h3>
+                            <h3>{data?.user?.name}</h3>
+                        </div>
+                    </div>
+                </Modal> */}
             </div>
         </div>
     )

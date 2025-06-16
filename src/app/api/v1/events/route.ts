@@ -2,6 +2,7 @@ import { FREE_QUOTA, PRO_QUOTA } from "@/config"
 import { db } from "@/db"
 import { DiscordClient } from "@/lib/discordClient"
 import { CATEGORY_NAME_VALIDAOTRS } from "@/lib/validators/category-validators"
+import { Prisma } from "@prisma/client"
 import { NextRequest, NextResponse } from "next/server"
 import { z } from "zod"
 const REQUEST_VALIDATOR = z
@@ -198,9 +199,21 @@ export const POST = async (req: NextRequest) => {
         )
     } catch (err: any) {
         console.log("Final try", err, err.message)
+        if (
+            err instanceof Prisma.PrismaClientUnknownRequestError &&
+            err.message.includes("invalid input syntax for type uuid")
+        ) {
+            return NextResponse.json(
+                { message: "Invalid api key || No User was found" },
+                { status: 404 }
+            )
+        }
 
         if (err instanceof z.ZodError) {
-            return NextResponse.json({ message: err.message }, { status: 422 })
+            return NextResponse.json(
+                { message: err.message + " || No category was found " },
+                { status: 422 }
+            )
         }
         return NextResponse.json(
             { message: "Internal server error" },

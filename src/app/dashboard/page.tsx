@@ -1,6 +1,5 @@
 import DashboardPage from "@/components/DashboardPage"
 import { db } from "@/db"
-import { currentUser } from "@clerk/nextjs/server"
 import { redirect } from "next/navigation"
 import DashboardPageContent from "./DashboardPageContent"
 import CreateEventCategoryModal from "@/components/CreateEventCategoryModal"
@@ -9,6 +8,7 @@ import { PlusIcon } from "lucide-react"
 import { createCheckoutSession } from "@/lib/stripe"
 import PaymentSuccessModal from "@/components/PaymentSuccessModal"
 import DashboardTutorial from "./DashboardTutorial"
+import { auth } from "@/lib/auth"
 interface PageProps {
     searchParams: {
         [key: string]: string | string[] | undefined
@@ -16,17 +16,16 @@ interface PageProps {
 }
 
 const Dashboard = async ({ searchParams }: PageProps) => {
-    const auth = await currentUser()
-    if (!auth) redirect("/sign-in")
+    const session = await auth()
+    if (!session) redirect("/sign-in")
+    const user = await db.user.findUnique({ where: { id: session?.user?.id } })
 
-    const user = await db.user.findUnique({ where: { externalId: auth.id } })
-
-    if (!user) redirect("/welcome")
+    if (!user) redirect("/sign-in")
 
     const intent = searchParams.intent
     if (intent === "upgrade") {
         const session = await createCheckoutSession({
-            userEmail: user.email,
+            userEmail: user.email || "",
             userId: user.id,
         })
         if (session.url) redirect(session.url)

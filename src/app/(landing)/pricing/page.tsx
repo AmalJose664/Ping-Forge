@@ -3,14 +3,13 @@ import Heading from "@/components/Heading"
 import MaxWidthWrapper from "@/components/MaxWidthWrapper"
 import { Button } from "@/components/ui/button"
 import { client } from "@/lib/client"
-import { useUser } from "@clerk/nextjs"
 import { useMutation } from "@tanstack/react-query"
 import { CheckIcon, Mail } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 
 const Page = () => {
-    const { user } = useUser()
+    const user = ""
     const router = useRouter()
     const INCLUDED_FEATURES = [
         "1000 real-time events per month",
@@ -29,7 +28,7 @@ const Page = () => {
     })
     const handleGetAccess = () => {
         if (user) {
-            createCheckoutSession()
+            //createCheckoutSession()
         } else {
             router.push("/sign-in?intent=upgrade")
         }

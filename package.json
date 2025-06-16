@@ -11,10 +11,11 @@
         "postinstall": "prisma generate"
     },
     "dependencies": {
+        "@auth/neon-adapter": "^1.9.1",
         "@clerk/nextjs": "^6.20.2",
         "@discordjs/rest": "^2.5.0",
         "@hookform/resolvers": "^5.0.1",
-        "@neondatabase/serverless": "^0.9.4",
+        "@neondatabase/serverless": "^0.9.5",
         "@prisma/adapter-neon": "^5.18.0",
         "@prisma/client": "^5.18.0",
         "@radix-ui/react-dialog": "^1.1.14",

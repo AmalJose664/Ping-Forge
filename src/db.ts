@@ -8,13 +8,15 @@ declare global {
 }
 
 let prisma: PrismaClient
+const pool = new Pool({ connectionString: process.env.DATABASE_URL })
+
 if (process.env.NODE_ENV === "production") {
-    const pool = new Pool({ connectionString: process.env.DATABASE_URL })
     const adapter = new PrismaNeon(pool)
     prisma = new PrismaClient({ adapter })
 } else {
     if (!global.cachedPrisma) {
         const pool = new Pool({ connectionString: process.env.DATABASE_URL })
+
         const adapter = new PrismaNeon(pool)
         global.cachedPrisma = new PrismaClient({ adapter })
     }
@@ -22,3 +24,4 @@ if (process.env.NODE_ENV === "production") {
 }
 
 export const db = prisma
+export const sharedPool = pool

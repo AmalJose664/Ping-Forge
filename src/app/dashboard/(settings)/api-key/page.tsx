@@ -1,16 +1,16 @@
 import DashboardPage from "@/components/DashboardPage"
 import { db } from "@/db"
-import { currentUser } from "@clerk/nextjs/server"
 import { redirect } from "next/navigation"
 import ApiSettings from "./ApiSettings"
+import { auth } from "@/lib/auth"
 
 const Page = async () => {
-    const auth = await currentUser()
-    if (!auth) {
+    const session = await auth()
+    if (!session) {
         redirect("/sign-in")
     }
     const user = await db.user.findUnique({
-        where: { externalId: auth.id },
+        where: { id: session.user?.id },
     })
     if (!user) redirect("/sign-in")
 
