@@ -114,7 +114,7 @@ const Sidebar = ({ onClose }: { onClose?: () => void }) => {
                 <hr className="my-4 md:my-6 w-full h-px bg-gray-100" />
 
                 <div
-                    className="flex relative items-center gap-7"
+                    className="flex relative items-center gap-7 cursor-pointer"
                     onClick={() => setShowUser(true)}
                 >
                     <img

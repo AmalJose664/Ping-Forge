@@ -29,7 +29,7 @@ const ShowUserComp = ({ data, closeFn }: ShowUserCompProps) => {
         <motion.div
             initial={{ y: -100, opacity: 0 }}
             animate={{ y: -50, opacity: 1 }}
-            transition={{ duration: 0.4, ease: "easeInOut" }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
             exit={{ y: -100, opacity: 0 }}
             ref={userCompRef}
             className="absolute z-[5000] top-[-70px] left-0 shadow-md py-4 px-5 bg-gray-100 border rounded-md border-gray-800"

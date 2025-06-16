@@ -3,7 +3,6 @@ import NextAuth from "next-auth"
 import Github from "next-auth/providers/github"
 import Google from "next-auth/providers/google"
 import NeonAdapter from "@auth/neon-adapter"
-import Resend from "next-auth/providers/resend"
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
     adapter: NeonAdapter(sharedPool),
@@ -13,9 +12,14 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         authorized: async ({ auth }) => {
             return !!auth
         },
+        async session({ session, token }) {
+            if (token?.sub && token?.role) {
+                session.user.id = token.sub
+            }
+            return session
+        },
     },
-    // pages:{
-    // 	signIn:"/sign-in",
-
-    // }
+    pages: {
+        signIn: "/sign-in",
+    },
 })
