@@ -1,6 +1,6 @@
 import { cn } from "@/utils"
 
-export const Github = ({ className }: { className: string }) => {
+export const Github = ({ className }: { className?: string }) => {
     return (
         <svg
             role="img"
