@@ -19,7 +19,7 @@ const NewSigninComp = ({ activity }: { activity: string }) => {
                         }}
                     >
                         <Button className="w-full" variant="outline">
-                            <Github />
+                            <Github className="" />
                             Continue with GitHub
                         </Button>
                     </form>
