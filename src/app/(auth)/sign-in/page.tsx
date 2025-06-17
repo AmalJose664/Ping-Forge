@@ -5,7 +5,6 @@ import EmailSignin from "@/components/EmailSignin"
 const Page = async () => {
     const session = await auth()
     if (session) {
-        console.log(session)
         redirect("/dashboard")
     }
 

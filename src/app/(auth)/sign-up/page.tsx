@@ -4,7 +4,6 @@ import NewSigninComp from "@/components/NewSigninComp"
 const Page = async () => {
     const session = await auth()
     if (session) {
-        console.log(session)
         redirect("/dashboard")
     }
 

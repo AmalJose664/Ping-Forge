@@ -7,8 +7,6 @@ import { useMutation } from "@tanstack/react-query"
 import { CheckIcon, Mail } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { getSession, useSession } from "next-auth/react"
-import { useEffect } from "react"
 
 const Page = () => {
     const user = ""
@@ -19,12 +17,7 @@ const Page = () => {
         "Advanced analytics and insights",
         "Priority support",
     ]
-    const { data: session } = useSession()
-    console.log(session, "Here sesssion must be logged")
 
-    useEffect(() => {
-        getSession().then((session) => console.log("Session", session))
-    }, [])
     const { mutate: createCheckoutSession } = useMutation({
         mutationFn: async () => {
             const res = await client.payment.createCheckoutSession.$post()

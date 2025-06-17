@@ -8,7 +8,6 @@ import SignOutButton from "./SignOutButton"
 const Navbar = async () => {
     const session = await auth()
     const user = session
-    console.log(session)
 
     return (
         <nav className="sticky h-16 z-[100] inset-x-0 top-0 w-full border-b border-gray-200 bg-white/80 backdrop-blur-lg transition-all">
