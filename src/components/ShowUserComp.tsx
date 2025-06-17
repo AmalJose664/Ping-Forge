@@ -32,18 +32,20 @@ const ShowUserComp = ({ data, closeFn }: ShowUserCompProps) => {
             transition={{ duration: 0.3, ease: "easeInOut" }}
             exit={{ y: -100, opacity: 0 }}
             ref={userCompRef}
-            className="absolute z-[5000] top-[-70px] left-0 shadow-md py-4 px-5 bg-gray-100 border rounded-md border-gray-800"
+            className="absolute z-[12] top-[-100px] left-0 shadow-md py-4 px-5 bg-gray-100 border rounded-md border-gray-800 w-auto"
         >
-            <div className="flex flex-col rounded-md items-center justify-between gap-1">
-                <div className="flex items-center justify-between gap-4">
+            <div className="flex flex-col rounded-md items-center justify-between gap-1 w-auto">
+                <div className="flex items-center justify-between gap-4 w-auto">
                     <img
                         src={data?.user?.image || ""}
                         className="h-9  w-9 rounded object-cover"
                         alt="User Image"
                     />
                     <div>
-                        <h3 className="my-2">{data?.user?.email}</h3>
-                        <h3 className="my-2">{data?.user?.name}</h3>
+                        <h3 className="my-2 w-auto mr-7">
+                            {data?.user?.email}
+                        </h3>
+                        <h3 className="my-2 w-auto">{data?.user?.name}</h3>
                     </div>
                 </div>
                 <div className="cursor-pointer">

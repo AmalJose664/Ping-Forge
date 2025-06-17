@@ -4,6 +4,7 @@ import Card from "@/components/ui/customCard"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { CheckIcon, ClipboardIcon } from "lucide-react"
+import { motion } from "motion/react"
 import { useEffect, useRef, useState } from "react"
 
 const ApiSettings = ({ apiKey }: { apiKey: string }) => {
@@ -27,7 +28,15 @@ const ApiSettings = ({ apiKey }: { apiKey: string }) => {
     return (
         <>
             <Card className="max-w-xl w-full">
-                <div>
+                <motion.div
+                    initial={{ y: -15, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{
+                        duration: 0.3,
+                        delay: 0.1,
+                        ease: "backInOut",
+                    }}
+                >
                     <Label>Your API Key</Label>
                     <div className="mt-1 relative">
                         <Input
@@ -53,7 +62,7 @@ const ApiSettings = ({ apiKey }: { apiKey: string }) => {
                     <p className="mt-2 text-sm/6 text-gray-600">
                         Keep your key secret and do not share it with others.
                     </p>
-                </div>
+                </motion.div>
             </Card>
         </>
     )

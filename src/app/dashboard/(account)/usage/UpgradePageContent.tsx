@@ -5,6 +5,7 @@ import { Plan } from "@prisma/client"
 import { useMutation, useQuery } from "@tanstack/react-query"
 import { format } from "date-fns"
 import { CalendarCheck2, ChartColumnStacked } from "lucide-react"
+import { motion } from "motion/react"
 import { useRouter } from "next/navigation"
 
 const UpgradePageContent = ({ plan }: { plan: Plan }) => {
@@ -38,7 +39,12 @@ const UpgradePageContent = ({ plan }: { plan: Plan }) => {
                         : "Get access to more events, categories and premium support."}
                 </p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <motion.div
+                initial={{ y: -15, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.3, delay: 0.1, ease: "backInOut" }}
+                className="grid grid-cols-1 md:grid-cols-2 gap-4"
+            >
                 <Card className="border-2 border-brand-700">
                     <div className="flex flex-row items-center justify-between space-y-0 pb-2">
                         <p className="text-sm/6 font-medium">Total Events</p>
@@ -71,7 +77,7 @@ const UpgradePageContent = ({ plan }: { plan: Plan }) => {
                         </p>
                     </div>
                 </Card>
-            </div>
+            </motion.div>
 
             <p className="text-sm text-gray-500">
                 Usage will reset{" "}

@@ -33,6 +33,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
+import { motion } from "motion/react"
 
 interface CategoryPageContentProps {
     hasEvents: boolean
@@ -222,7 +223,15 @@ const CategoryPageContent = ({
                     <p className="text-sm/6 font-medium">Unique Fields</p>
                     <BarChart className="size-4 text-muted-foreground" />
                 </div>
-                <div>
+                <motion.div
+                    initial={{ y: -15, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{
+                        duration: 0.3,
+                        delay: 0.1,
+                        ease: "backInOut",
+                    }}
+                >
                     <p className="text-2xl font-bold"></p>
                     <p className="text-xs/5 text-muted-foreground">
                         {activeTab === "today"
@@ -243,7 +252,7 @@ const CategoryPageContent = ({
                             )
                         })}
                     </ul>
-                </div>
+                </motion.div>
             </Card>
         )
     }
@@ -261,12 +270,21 @@ const CategoryPageContent = ({
             return (
                 <>
                     <Card key={field}>
-                        <div className="flex flex-row items-center justify-between space-y-0">
+                        <motion.div
+                            initial={{ y: -15, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            transition={{
+                                duration: 0.3,
+                                delay: 0.1,
+                                ease: "backInOut",
+                            }}
+                            className="flex flex-row items-center justify-between space-y-0"
+                        >
                             <p className="text-sm/6 font-medium">
                                 {field.charAt(0).toUpperCase() + field.slice(1)}
                             </p>
                             <BarChart className="size-4 text-muted-foreground" />
-                        </div>
+                        </motion.div>
                         <p className="text-xs/8">Total Value</p>
                         <div>
                             <p className="text-2xl font-bold">{releventSums}</p>
@@ -301,7 +319,16 @@ const CategoryPageContent = ({
                     <TabsTrigger value="month">This Month</TabsTrigger>
                 </TabsList>
                 <TabsContent value={activeTab}>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-16">
+                    <motion.div
+                        initial={{ y: -15, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        transition={{
+                            duration: 0.3,
+                            delay: 0.2,
+                            ease: "backInOut",
+                        }}
+                        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-16"
+                    >
                         <Card className="border-2 border-brand-700">
                             <div className="flex flex-row items-center justify-between space-y-0 pb-2">
                                 <p className="text-sm/6 font-medium">
@@ -326,15 +353,29 @@ const CategoryPageContent = ({
                         {data?.uniqueFields &&
                             data?.uniqueFields.length > 0 && <TotalFields />}
                         <NumericFieldSumCards />
-                    </div>
+                    </motion.div>
                 </TabsContent>
             </Tabs>
 
-            <div className="flex flex-col gap-4">
+            <motion.div
+                initial={{ y: -15, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.3, delay: 0.3, ease: "backInOut" }}
+                className="flex flex-col gap-4"
+            >
                 <div className="flex items-center justify-between">
-                    <div className="w-full flex gap-4 flex-col">
+                    <motion.div
+                        initial={{ y: -15, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        transition={{
+                            duration: 0.3,
+                            delay: 0.4,
+                            ease: "backInOut",
+                        }}
+                        className="w-full flex gap-4 flex-col"
+                    >
                         <Heading className="text-3xl">Event Overview</Heading>
-                    </div>
+                    </motion.div>
                 </div>
 
                 <Card contentClassName="px-6 py-4">
@@ -392,7 +433,7 @@ const CategoryPageContent = ({
                         </TableBody>
                     </Table>
                 </Card>
-            </div>
+            </motion.div>
             <div className="flex items-center justify-end space-x-2 py-4">
                 <Button
                     variant="outline"

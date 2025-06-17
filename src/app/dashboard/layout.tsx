@@ -181,7 +181,7 @@ const Layout = ({ children }: PropsWithChildren) => {
                 </div>
 
                 {/* main content area */}
-                <div className="flex-1 overflow-y-auto bg-gray-50 shadow-md p-4 md:p-6 relative z-10">
+                <div className="flex-1 overflow-y-auto bg-gray-50 shadow-md p-4 md:p-6 relative z-9">
                     <div className="relative min-h-full flex flex-col">
                         <div className="h-full flex flex-col flex-1 space-y-4">
                             {children}
