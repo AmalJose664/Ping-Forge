@@ -10,8 +10,11 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter"
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism"
 import Icons from "@/components/Icons"
 import { codeSnippets } from "@/utils"
+import Link from "next/link"
+import { Github } from "@/components/magicui/Github"
 
 const Page = () => {
+    const year = new Date().getFullYear()
     return (
         <>
             <section className="relative py-24 sm:py-32 bg-brand-25 ">
@@ -370,6 +373,49 @@ const Page = () => {
                     </ShinyButton>
                 </MaxWidthWrapper>
             </section>
+            <footer className="bg-gray-100 text-gray-800 py-8 px-4 mt-4">
+                <div className="max-w-7xl mx-auto flex items-center justify-between">
+                    {/* Brand Info */}
+                    <div>
+                        <h2 className="text-sm font-semibold">
+                            {" "}
+                            &copy; {year} PingForge
+                        </h2>
+                        <p className="mt-2 text-xs">
+                            Empowering developers with fast, reliable uptime
+                            monitoring and API checks.
+                        </p>
+                    </div>
+                    <div>
+                        <div className="flex gap-3">
+                            <Link
+                                href={
+                                    "https://github.com/AmalJose664/Ping-Forge"
+                                }
+                                target="_blank"
+                                className="hover:underline"
+                            >
+                                {" "}
+                                <Github className="size-4 inline" /> Github
+                            </Link>
+                            <Link
+                                href={"mailto:renderstest446446@gmail.com"}
+                                className="hover:underline"
+                            >
+                                {" "}
+                                Contact
+                            </Link>
+                            <Link
+                                href={"/privacy-policy"}
+                                className="hover:underline"
+                            >
+                                {" "}
+                                Privacy Notice
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+            </footer>
         </>
     )
 }
