@@ -24,7 +24,7 @@ const ShowUserComp = ({ data, closeFn }: ShowUserCompProps) => {
             closeFn && closeFn(false)
             document.removeEventListener("mousedown", handleClickOutside)
         }
-    }, [])
+    }, [closeFn])
     return (
         <motion.div
             initial={{ y: -100, opacity: 0 }}
