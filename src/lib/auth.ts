@@ -12,6 +12,9 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         authorized: async ({ auth }) => {
             return !!auth
         },
+        async redirect({ url, baseUrl }) {
+            return url.startsWith(baseUrl) ? url : baseUrl
+        },
         async session({ session, token }) {
             if (token?.sub && token?.role) {
                 session.user.id = token.sub
