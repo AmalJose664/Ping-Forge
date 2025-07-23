@@ -145,7 +145,7 @@ export const categoryRouter = router({
                 data: [
                     { name: "bug", emoji: "🐛", color: 0xff6b6b },
                     { name: "sale", emoji: "💰", color: 0xffeb3b },
-                    { name: "sign up", emoji: "👤", color: 0x6c5ce7 },
+                    { name: "sign-up", emoji: "👤", color: 0x6c5ce7 },
                 ].map((category) => {
                     return { ...category, userId: ctx.user.id }
                 }),

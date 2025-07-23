@@ -6,4 +6,4 @@ export const CATEGORY_NAME_VALIDAOTRS = z
     .regex(
         /^[a-zA-Z0-9-]+$/,
         "Category name can only contain letters, numbers or hypens"
-    )
+    ).transform((val) => val.replace(/\s/g, "-"));

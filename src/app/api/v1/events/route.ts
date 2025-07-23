@@ -179,13 +179,35 @@ export const POST = async (req: NextRequest) => {
                 },
             })
 			
-        } catch (err) {
+        } catch (err:any) {
+			
+			
             await db.event.update({
                 where: { id: event.id },
                 data: { deliveryStatus: "FAILED" },
             })
             console.log(err, "Update Error +++")
-
+			if (err.code == 50007){
+				return NextResponse.json(
+					{
+						error: true,
+						code: "DISCORD_DM_BLOCKED",
+						title: "Direct Message Failed",
+						description:
+						"We couldn't send you a direct message on Discord.",
+						reason:
+						"You may have disabled DMs from server members or haven't added the bot to any server.",
+						suggestion:
+						"Please enable 'Allow direct messages from server members' in your Discord privacy settings, or add our bot to a server you're in.",
+						actionUrl: process.env.NEXT_PUBLIC_APP_URL + "/dashboard/account-settings",
+					 	eventId: event.id,
+						
+					},{
+						status: 403 
+					}
+				)
+				
+			}
             return NextResponse.json(
                 {
                     message: "Error processing event",
