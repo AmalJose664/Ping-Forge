@@ -390,7 +390,7 @@ const Page = () => {
                         <div className="flex gap-3">
                             <Link
                                 href={
-                                    "https://github.com/AmalJose664/Ping-Forge"
+                                    "https://github.com"
                                 }
                                 target="_blank"
                                 className="hover:underline"
