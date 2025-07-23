@@ -20,6 +20,8 @@ const Dashboard = async ({ searchParams }: PageProps) => {
     if (!session) redirect("/sign-in")
     const user = await db.user.findUnique({ where: { id: session?.user?.id } })
 
+	
+
     if (!user) redirect("/sign-in")
 
     const intent = searchParams.intent
@@ -34,6 +36,7 @@ const Dashboard = async ({ searchParams }: PageProps) => {
     let tutorial = searchParams.tutorial
     if (success && tutorial) tutorial = undefined
     const addCategory = searchParams.addcategory
+	
     return (
         <>
             {success && <PaymentSuccessModal />}
@@ -42,7 +45,7 @@ const Dashboard = async ({ searchParams }: PageProps) => {
                     <DashboardTutorial />
                 </div>
             )}
-            <DashboardPage
+            <DashboardPage hideBackButton={true}
                 cta={
                     <CreateEventCategoryModal addStart={!!addCategory}>
                         <Button className="w-full sm:w-fit">

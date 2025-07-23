@@ -23,7 +23,7 @@ model User {
   accounts        Account[]
   events          Event[]
   EventCategories EventCategory[]
-  Quota           Quota?
+  Quota           Quota[]
   sessions        Session[]
 
   @@index([email, apiKey])
@@ -106,12 +106,14 @@ model Event {
 
 model Quota {
   id        String   @id @default(cuid())
-  userId    String   @unique @db.Uuid
+  userId    String   @db.Uuid
   year      Int
   month     Int
   count     Int      @default(0)
   updatedAt DateTime @updatedAt
   user      User     @relation(fields: [userId], references: [id])
+
+  @@unique([userId, year, month], name: "quota_by_user_month_year")
 }
 
 enum Plan {
