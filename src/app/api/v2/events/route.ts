@@ -274,6 +274,40 @@ export const POST = async (req: NextRequest) => {
         )
     } catch (err: any) {
         console.log("Final try", err, err.message)
+		if (err.code && err.code == 50033){
+			return NextResponse.json(
+				{
+					error: true,
+					code: "DISCORD_USER_NOT_CONNECTED",
+					title: "Invalid User ID",
+					description:
+					"We couldn't send you a direct message on Discord.",
+					suggestion:
+					"Please provide a valid Discord User ID",
+					
+				},{
+					status: 400
+				}
+			)
+			
+		}
+		if (err.code && err.code == 50035){
+			console.error("Invalid form field:", err.rawError.errors);
+			return NextResponse.json(
+				{
+					error: true,
+					code: "DISCORD_INVALID_PAYLOAD",
+					title: "Discord API Error",
+					description: "Failed to send due to invalid data or invalid Discord ID",
+					details: err.rawError.errors,
+					
+				},{
+					status: 400
+				}
+			)
+			
+		}
+		
         if (
             err instanceof Prisma.PrismaClientUnknownRequestError &&
             err.message.includes("invalid input syntax for type uuid")
