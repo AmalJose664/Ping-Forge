@@ -14,7 +14,7 @@ model User {
   plan            Plan            @default(FREE)
   name            String?
   email           String?         @unique
-  apiKey          String?         @unique @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  apiKey 		  String?		  @unique	@db.Text
   discordId       String?
   emailVerified   DateTime?
   image           String?

@@ -162,7 +162,8 @@ const Layout = ({ children }: PropsWithChildren) => {
     return (
         <div className="relative h-screen flex flex-col md:flex-row bg-white overflow-hidden">
             {/* sidebar for desktop */}
-            <div className="hidden md:block w-64 lg:w-80 border-r border-gray-100 p-6 h-full text-brand-900 relative z-10">
+			
+            <div className="hidden md:block w-64 lg:w-80 border-r border-gray-100 p-6 h-full text-brand-900 relative z-10"> 
                 <Sidebar />
             </div>
 
@@ -206,7 +207,7 @@ const Layout = ({ children }: PropsWithChildren) => {
                         </button>
                     </div>
 
-                    <Sidebar />
+                    <Sidebar onClose={()=>setIsDrawerOpen(false)}/>
                 </Modal>
             </div>
         </div>

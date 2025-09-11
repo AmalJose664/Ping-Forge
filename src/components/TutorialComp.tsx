@@ -15,6 +15,7 @@ import { Button } from "./ui/button"
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter"
 import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism"
 import { motion } from "motion/react"
+import { useMediaQuery } from "@/hooks/use-media-query"
 
 const TutorialComp = () => {
     const [showTuto, setShowTuto] = useState(true)
@@ -28,22 +29,24 @@ const TutorialComp = () => {
         router.push("/dashboard")
         setShowTuto(false)
     }
+	const { isMobile } = useMediaQuery()
     const tutoPages = [
-        <FirstTab key={1} />,
-        <SecondTab key={2} closeTab={closeTab} />,
-        <ThirdTab key={3} />,
-        <FourthTab key={4} />,
+		{ui: <FirstTab key={1} isMobile={isMobile}/>, customWidth: 1},
+		{ui: <SecondTab key={2} closeTab={closeTab} isMobile={isMobile} />, customWidth: 1},
+		{ui:  <ThirdTab key={3} isMobile={isMobile} />, customWidth: 2},
+		{ui: <FourthTab key={4} isMobile={isMobile} />, customWidth: 3},
+		{ui: <FifthTab key={5} isMobile={isMobile} />, customWidth: 2}
     ]
-
     return (
         <div>
             <Modal
                 className="p-8 relative"
                 showModal={showTuto}
-                setShowModal={modalClose}
+                setShowModal={modalClose} desktopOnly={true}
+				customSize={tutoPages[tutoState].customWidth}
             >
-                <div>
-                    <div className="absolute bg-brand-600 top-14 rounded-full left-[48%] pt-1 w-8 h-8 text-center text-white">
+                <div className={`${(isMobile && tutoState==3) && "w-[80%]"} `}>
+                    <div  className="absolute bg-brand-600 top-14 rounded-full left-[48%] pt-1 w-8 h-8 text-center text-white">
                         {tutoState + 1}
                     </div>
                     <h2 className="text-xl/8 font-medium tracking-tight text-gray-900">
@@ -54,9 +57,9 @@ const TutorialComp = () => {
                     </p>
 
                     <div className="relative ">
-                        {tutoState > 0 && (
+                        {(tutoState > 0 && !isMobile) && (
                             <div
-                                className="absolute hover:bg-gray-200 transition-all duration-300 rounded-lg left-0 top-[50%]"
+                                className="absolute bg-brand-600 cursor-pointer hover:bg-gray-200 transition-all duration-300 rounded-lg -left-3 top-[50%]"
                                 onClick={() =>
                                     setTutoState((prev) =>
                                         prev > 0 ? prev - 1 : prev
@@ -66,9 +69,9 @@ const TutorialComp = () => {
                                 <ArrowLeft className="size-5" />
                             </div>
                         )}
-                        {tutoState < tutoPages.length - 1 && (
+                        {(tutoState < tutoPages.length - 1 && !isMobile) && (
                             <div
-                                className="absolute hover:bg-gray-200 rounded-lg right-0 top-[50%] transition-all duration-300"
+                                className="absolute bg-brand-600 cursor-pointer hover:bg-gray-200 rounded-lg -right-3 top-[50%] transition-all duration-300"
                                 onClick={() =>
                                     setTutoState((prev) =>
                                         prev < tutoPages.length - 1
@@ -80,12 +83,25 @@ const TutorialComp = () => {
                                 <ArrowRight className="size-5" />
                             </div>
                         )}
-                        <div className="p-4 rounded bg-gray-50 ">
-                            {tutoPages[tutoState]}
+                        <div className={`${!isMobile ? "p-4 " : ""} 
+							${isMobile && tutoState==3 && "w-[80%]"} rounded bg-gray-50`}>
+                            {tutoPages[tutoState].ui}
                         </div>
                     </div>
 
                     <div className="w-full flex items-center justify-center gap-2 mt-4">
+						{(tutoState > 0 && isMobile) && (
+                            <div
+                                className=" hover:bg-gray-200 transition-all duration-300 rounded-lg"
+                                onClick={() =>
+                                    setTutoState((prev) =>
+                                        prev > 0 ? prev - 1 : prev
+                                    )
+                                }
+                            >
+                                <ArrowLeft className="size-5" />
+                            </div>
+                        )}
                         {tutoPages.map((_, index) => (
                             <span
                                 key={index}
@@ -96,6 +112,20 @@ const TutorialComp = () => {
                                 } w-1 h-1`}
                             ></span>
                         ))}
+						 {(tutoState < tutoPages.length - 1 && isMobile) && (
+                            <div
+                                className="hover:bg-gray-200 rounded-lg transition-all duration-300"
+                                onClick={() =>
+                                    setTutoState((prev) =>
+                                        prev < tutoPages.length - 1
+                                            ? prev + 1
+                                            : prev
+                                    )
+                                }
+                            >
+                                <ArrowRight className="size-5" />
+                            </div>
+                        )}
                     </div>
                 </div>
             </Modal>
@@ -104,7 +134,7 @@ const TutorialComp = () => {
 }
 export default TutorialComp
 
-function FirstTab() {
+function FirstTab({isMobile}:{isMobile: Boolean}) {
     return (
         <div className="flex flex-col justify-center items-center">
             <h2 className="text-2xl font-semibold ">Update ID</h2>
@@ -144,13 +174,13 @@ function FirstTab() {
         </div>
     )
 }
-function SecondTab({ closeTab }: { closeTab: (str: string) => void }) {
+function SecondTab({ closeTab, isMobile }: { closeTab: (str: string) => void, isMobile:Boolean }) {
     return (
         <div className="flex flex-col justify-center  items-center">
             <h2 className="text-2xl font-semibold mb-6">Categories</h2>
             <Button
                 onClick={() => closeTab("addcategory")}
-                className="w-full sm:w-fit"
+                className={`w-full sm:w-fit ${isMobile && "w-[180px]"}`}
             >
                 <PlusIcon className="size-4 mr-2" />
                 Add Category
@@ -165,7 +195,7 @@ function SecondTab({ closeTab }: { closeTab: (str: string) => void }) {
     )
 }
 
-function ThirdTab() {
+function ThirdTab({isMobile} : {isMobile: Boolean}) {
     return (
         <div className="flex flex-col justify-center items-center">
             <h2 className="text-2xl font-semibold mb-6">Discord Server</h2>
@@ -187,16 +217,16 @@ function ThirdTab() {
                 </Link>
             </p>
             <p className="mb-3">
-                <span className="flex gap-6 text-gray-700">
-                    <span className="p-1 text-center rounded bg-brand-500">
+                <span className={`flex gap-6 text-gray-700 ${isMobile && "flex-col"}`}>
+                    <span className="p-1 text-center rounded bg-brand-700 text-white">
                         https://discord.com/o...
                     </span>
-                    <span>&#11106;</span>
-                    <span className="p-1 text-center rounded bg-brand-500">
+                    <span className={`${isMobile && "rotate-90 translate-y-20"}`}>&#11106;</span>
+                    <span className="p-1 text-center rounded bg-brand-700 text-white">
                         Add server
                     </span>
-                    <span>&#11106;</span>
-                    <span className="p-1 text-center rounded bg-brand-500">
+                    <span className={`${isMobile && "rotate-90 translate-y-20"}`}>&#11106;</span>
+                    <span className="p-1 text-center rounded bg-brand-700 text-white">
                         Authorize
                     </span>
                 </span>
@@ -218,18 +248,18 @@ function ThirdTab() {
     )
 }
 
-function FourthTab() {
-    const codeSnippet = `await fetch('${process.env.NEXT_PUBLIC_APP_URL}/api/events', {
+function FourthTab({isMobile} : {isMobile: Boolean}) {
+    const codeSnippet = `await fetch('${process.env.NEXT_PUBLIC_APP_URL}/api/v1/events', {
   method: 'POST',
   headers: {
     'Authorization': 'Bearer <YOUR_API_KEY>'
   },
   body: JSON.stringify({
-    category: '<valid category name>',
+    category: '<VALID_CATEGORY_NAME>',
 	description: "",
     fields: {
-      field1: 'value1', // for example: user id
-      field2: 'value2' // for example: user email
+      field1: 'value1', // example> id: user.id
+      field2: 'value2' // example> email: user.email
     }
   })
 })`
@@ -247,7 +277,7 @@ function FourthTab() {
     }, [])
 
     return (
-        <div className="flex flex-col justify-center items-center">
+        <div className="flex flex-col justify-center items-center ">
             <h2 className="text-xl/8 tracking-tight font-medium text-center text-gray-950 mb-8">
                 Sending Request
             </h2>
@@ -288,6 +318,7 @@ function FourthTab() {
                     style={atomDark}
                     customStyle={{
                         borderRadius: "0px",
+						width: "",
                         margin: "0",
                         padding: "1rem",
                         fontSize: "0.875rem",
@@ -302,4 +333,20 @@ function FourthTab() {
             </p>
         </div>
     )
+}
+function FifthTab({isMobile} : {isMobile: Boolean}) {
+	return (
+		<div className="">
+			<h2 className="text-xl/8 tracking-tight font-medium text-center text-gray-950 mb-8">
+                Receive Updates from your apps
+            	</h2>
+			<div className="flex items-center justify-center flex-col">
+				
+				<img src="/discord-output.jpg"
+                style={{ height: "400px", width: "" }}
+                alt="Discord"
+                className="rounded-md"/>
+			</div>
+		</div>
+	)
 }

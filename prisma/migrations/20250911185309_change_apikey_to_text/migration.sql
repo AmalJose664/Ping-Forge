@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "users" ALTER COLUMN "apiKey" DROP DEFAULT,
+ALTER COLUMN "apiKey" SET DATA TYPE TEXT,
+ALTER COLUMN "updatedAt" SET DEFAULT now();

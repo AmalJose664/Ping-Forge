@@ -10,7 +10,8 @@ interface ModalProps {
     setShowModal?: Dispatch<SetStateAction<boolean>>
     onClose?: () => void
     desktopOnly?: boolean
-    preventDefaultClose?: boolean
+    preventDefaultClose?: boolean,
+	customSize?: number
 }
 export const Modal = ({
     children,
@@ -20,6 +21,7 @@ export const Modal = ({
     preventDefaultClose,
     setShowModal,
     showModal,
+	customSize=0
 }: ModalProps) => {
     const closeModal = ({ dragged }: { dragged?: boolean }) => {
         if (preventDefaultClose && !dragged) {
@@ -31,7 +33,8 @@ export const Modal = ({
         }
     }
     const { isMobile } = useMediaQuery()
-    if (isMobile && !desktopOnly) {
+	if (isMobile && !desktopOnly) {
+
         return (
             <Drawer.Root
                 open={setShowModal ? showModal : true}
@@ -70,7 +73,7 @@ export const Modal = ({
             }}
         >
             <DialogTitle className="sr-only">Dialog</DialogTitle>
-            <DialogContent>{children}</DialogContent>
+            <DialogContent className={`max-w-${customSize>1?customSize : ""}xl w-full`} >{children}</DialogContent>
         </Dialog>
     )
 }

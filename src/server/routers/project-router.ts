@@ -4,6 +4,8 @@ import { privateProcedure } from "../procedures"
 import { db } from "@/db"
 import { FREE_QUOTA, PRO_QUOTA } from "@/config"
 import { z } from "zod"
+import { encrypt, getRandomKey } from "@/lib/encryptDecrytp"
+
 
 export const projectRouter = router({
     getUsage: privateProcedure.query(async ({ c, ctx }) => {
@@ -51,4 +53,22 @@ export const projectRouter = router({
             })
             return c.json({ success: true })
         }),
+
+	 resetApiKey: privateProcedure.mutation(async({c, ctx}) =>{
+		const { user } = ctx
+		const key = getRandomKey()
+		
+		let result = await db.user.update({
+				where: {
+					email: user?.email || ""
+				},
+				data:{
+					apiKey: key
+				}
+			})
+
+		//			console.log(result)
+		console.log("makeing kkey ", key)
+		return c.json({ success: true, key: key })
+	 } )
 })
