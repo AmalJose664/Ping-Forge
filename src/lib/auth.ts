@@ -1,11 +1,11 @@
 import { sharedPool, db } from "@/db"
 import NextAuth from "next-auth"
-import crypto from "crypto";
 import Github from "next-auth/providers/github"
 import Google from "next-auth/providers/google"
 import NeonAdapter from "@auth/neon-adapter"
-import { encrypt, getRandomKey } from "./encryptDecrytp";
-
+import { getRandomKey } from "./encryptDecrytp";
+ // skip prerendering
+export const runtime = "nodejs";  
 export const { auth, handlers, signIn, signOut } = NextAuth({
     adapter: NeonAdapter(sharedPool),
     providers: [Github, Google],

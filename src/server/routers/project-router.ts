@@ -4,8 +4,8 @@ import { privateProcedure } from "../procedures"
 import { db } from "@/db"
 import { FREE_QUOTA, PRO_QUOTA } from "@/config"
 import { z } from "zod"
-import { encrypt, getRandomKey } from "@/lib/encryptDecrytp"
-
+import {  getRandomKey } from "@/lib/encryptDecrytp"
+export const runtime = "nodejs";  
 
 export const projectRouter = router({
     getUsage: privateProcedure.query(async ({ c, ctx }) => {
