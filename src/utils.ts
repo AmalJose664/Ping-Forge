@@ -9,16 +9,41 @@ export const parseColor = (color: string) => {
 
     return parseInt(hex, 16)
 }
+// utils/authErrors.ts
+export const authErrorMessages: Record<string, string> = {
+  OAuthAccountNotLinked:
+    "This email is already linked with another account. Please sign in with the original provider.",
+  CredentialsSignin: "Invalid credentials. Please try again.",
+  AccessDenied: "Access denied. Contact support if you think this is a mistake.",
+  default: "Something went wrong. Please try again."
+};
+
 
 export const codeSnippets = {
     simpleCode: {
+		generateCodeForCategory(category:string){
+			return `await fetch('${process.env.NEXT_PUBLIC_APP_URL}/api/v1/events', {
+  method: 'POST',
+  headers: {
+    'Authorization': 'Bearer <YOUR_API_KEY>'
+  },
+  body: JSON.stringify({
+    category: "${category}",
+	description: "Some event description",
+    fields: {
+      field1: 'value1', // for example: user id
+      field2: 'value2' // for example: user email
+    }
+  })
+})`
+		},
         complete: `await fetch('${process.env.NEXT_PUBLIC_APP_URL}/api/v1/events', {
   method: 'POST',
   headers: {
-    'Authorization': 'Bearer YOUR_API_KEY'
+    'Authorization': 'Bearer <YOUR_API_KEY>'
   },
   body: JSON.stringify({
-    category: <category_name>,
+    category: <VALID_CATEGORY_NAME>,
 	description: "Some event description",
     fields: {
       field1: 'value1', // for example: user id
@@ -38,11 +63,11 @@ export const codeSnippets = {
         simple: `await fetch('${process.env.NEXT_PUBLIC_APP_URL}/api/v2/events', {
   method: 'POST',
   headers: {
-    'Authorization': 'Bearer YOUR_API_KEY'
+    'Authorization': 'Bearer <YOUR_API_KEY>'
   },
   body: JSON.stringify({
   {
-  category: <category_name>,
+  category: <VALID_CATEGORY_NAME>,
   description: "some descrition",
   iconAvatar: "https://thumbnail.avatar.img/example.jpg",
   fields: {
@@ -58,11 +83,11 @@ export const codeSnippets = {
         complete: `await fetch('${process.env.NEXT_PUBLIC_APP_URL}/api/v2/events', {
   method: 'POST',
   headers: {
-    'Authorization': 'Bearer YOUR_API_KEY'
+    'Authorization': 'Bearer <YOUR_API_KEY>'
   },
   body: JSON.stringify({
   {
-  category: <category_name>,
+  category: <VALID_CATEGORY_NAME>,
   description: "some description", // use # to change text size # description, ## description,  ### description
   codeSnippet: "const x = 0",
   iconAvatar: "https://thumbnail.avatar.img/example.jpg",

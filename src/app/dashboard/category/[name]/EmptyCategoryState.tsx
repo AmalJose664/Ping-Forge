@@ -61,7 +61,7 @@ const EmptyCategoryState = ({ categoryName }: { categoryName: string }) => {
                         lineHeight: "1.5",
                     }}
                 >
-                    {codeSnippets.simpleCode.complete}
+                    {codeSnippets.simpleCode.generateCodeForCategory(categoryName)}
                 </SyntaxHighlighter>
             </CodeSnippet>
             <div className="mt-8 flex flex-col items-center space-x-2">
