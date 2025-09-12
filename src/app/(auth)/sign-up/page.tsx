@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation"
 import { auth } from "@/lib/auth"
 import NewSigninComp from "@/components/NewSigninComp"
+export const dynamic = "force-dynamic" 
 import { authErrorMessages } from "@/utils"
 const Page = async ( {searchParams}:{searchParams:{error?:string}}) => {
     const session = await auth()

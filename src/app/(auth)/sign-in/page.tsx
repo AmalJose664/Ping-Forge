@@ -2,7 +2,7 @@ import { redirect } from "next/navigation"
 import { auth } from "@/lib/auth"
 import NewSigninComp from "@/components/NewSigninComp"
 import EmailSignin from "@/components/EmailSignin"
-
+export const dynamic = "force-dynamic" 
 import { authErrorMessages } from "@/utils"
 const Page = async (  {searchParams}:{searchParams:{error?:string}}) => {
 	 //const searchParams = useSearchParams()
