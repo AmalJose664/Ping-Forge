@@ -75,9 +75,9 @@ const Sidebar = ({ onClose }: { onClose?: () => void }) => {
     return (
         <div className="space-y-4 md:space-y-6 relative z-20 flex flex-col h-full">
             {/* logo */}
-            <p className="hidden sm:block text-lg/7 font-semibold text-brand-900">
+            <Link href={"/"} className="hidden sm:block text-lg/7 font-semibold text-brand-900">
                 Ping<span className="text-brand-700">Forge</span>
-            </p>
+            </Link>
 
             {/* navigation items */}
             <div className="flex-grow">
