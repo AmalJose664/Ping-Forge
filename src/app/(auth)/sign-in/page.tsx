@@ -1,4 +1,4 @@
-import { redirect,useSearchParams  } from "next/navigation"
+import { redirect } from "next/navigation"
 import { auth } from "@/lib/auth"
 import NewSigninComp from "@/components/NewSigninComp"
 import EmailSignin from "@/components/EmailSignin"
