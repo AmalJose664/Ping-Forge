@@ -4,41 +4,44 @@ import Github from "next-auth/providers/github"
 import Google from "next-auth/providers/google"
 import NeonAdapter from "@auth/neon-adapter"
 import { getRandomKey } from "./encryptDecrytp";
- // skip prerendering
-export const runtime = "nodejs";  
+import { selfPing } from "./selfPing"
+// skip prerendering
+export const runtime = "nodejs";
 export const { auth, handlers, signIn, signOut } = NextAuth({
-    adapter: NeonAdapter(sharedPool),
-    providers: [Github, Google],
-    events: {
-		async createUser({user}){
+	adapter: NeonAdapter(sharedPool),
+	providers: [Github, Google],
+	events: {
+		async createUser({ user }) {
 			const key = getRandomKey()
-			let result = await db.user.update({
+
+			await db.user.update({
 				where: {
 					email: user?.email || ""
 				},
-				data:{
+				data: {
 					apiKey: key
 				}
 			})
-			console.log(result)
+			void selfPing({ email: user.email || "", name: user.name || "" })
+
 		}
 	},
-    callbacks: {
-        authorized: async ({ auth }) => {
-            return !!auth
-        },
+	callbacks: {
+		authorized: async ({ auth }) => {
+			return !!auth
+		},
 
-        async redirect({ url, baseUrl }) {
-            return url.startsWith(baseUrl) ? url : baseUrl
-        },
-        async session({ session, token }) {
-            if (token?.sub && token?.role) {
-                session.user.id = token.sub
-            }
-            return session
-        },
-    },
-    pages: {
-        signIn: "/sign-in",
-    },
+		async redirect({ url, baseUrl }) {
+			return url.startsWith(baseUrl) ? url : baseUrl
+		},
+		async session({ session, token }) {
+			if (token?.sub && token?.role) {
+				session.user.id = token.sub
+			}
+			return session
+		},
+	},
+	pages: {
+		signIn: "/sign-in",
+	},
 })

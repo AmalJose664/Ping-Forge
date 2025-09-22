@@ -12,11 +12,26 @@ const REQUEST_VALIDATOR = z
 		description: z.string().optional(),
 	})
 	.strict()
-let discord = new DiscordClient(process.env.DISCORD_BOT_TOKEN)
+export let discord = new DiscordClient(process.env.DISCORD_BOT_TOKEN)
 export const POST = async (req: NextRequest) => {
+
 	try {
-		const time = performance.now()
-		console.time("API Response Time");
+		let requestData: unknown
+		try {
+			requestData = await req.json()
+
+		} catch (err: any) {
+			console.log(err, err.message,)
+
+			return NextResponse.json(
+				{
+					message: "Invalid JSON request bodys",
+				},
+				{ status: 400 }
+			)
+		}
+
+
 		const authHeader = req.headers.get("Authorization")
 		if (!authHeader) {
 			return NextResponse.json(
@@ -41,17 +56,21 @@ export const POST = async (req: NextRequest) => {
 			)
 		}
 
-
 		const currentDate = new Date()
 		const currentMonth = currentDate.getMonth() + 1
 		const currentYear = currentDate.getFullYear()
+
+		const validationResult = REQUEST_VALIDATOR.parse(requestData)
 
 		const user = await db.user.findUnique({
 			where: {
 				apiKey: apiKey,
 			},
 			include: {
-				EventCategories: true,
+				EventCategories: {
+					where: { name: validationResult.category }, // Filter categories at DB level
+					take: 1 // Only get the one we need
+				},
 				Quota: {
 					where: {
 						month: currentMonth,
@@ -98,27 +117,11 @@ export const POST = async (req: NextRequest) => {
 		if (!discord) {
 			discord = new DiscordClient(process.env.DISCORD_BOT_TOKEN)
 		}
-		//const dmChannel = await discord.createDm(user.discordId)
 
-		let requestData: unknown
-		try {
-			requestData = await req.json()
 
-		} catch (err: any) {
-			console.log(err, err.message,)
 
-			return NextResponse.json(
-				{
-					message: "Invalid JSON request bodys",
-				},
-				{ status: 400 }
-			)
-		}
-		const validationResult = REQUEST_VALIDATOR.parse(requestData)
 
-		const category = user.EventCategories.find(
-			(cat) => cat.name === validationResult.category
-		)
+		const category = user.EventCategories[0]
 
 		if (!category) {
 			return NextResponse.json(
@@ -152,10 +155,14 @@ export const POST = async (req: NextRequest) => {
 			),
 		}
 
-
 		let event: Event | null = null;
+
+		const dmChannel = await discord.createDm(user.discordId)
+
 		try {
-			//await discord.sendEmbed(dmChannel.id, eventData)
+
+			await discord.sendEmbed(dmChannel.id, eventData)
+
 			event = await db.$transaction(async (tx) => {
 				const newEvent = await tx.event.create({
 					data: {
@@ -187,7 +194,6 @@ export const POST = async (req: NextRequest) => {
 				})
 				return newEvent
 			})
-
 		} catch (err: any) {
 
 			event = await db.event.create({
@@ -207,17 +213,13 @@ export const POST = async (req: NextRequest) => {
 						error: true,
 						code: "DISCORD_DM_BLOCKED",
 						title: "Direct Message Failed",
-						description:
-							"We couldn't send you a direct message on Discord.",
-						reason:
-							"You may have disabled DMs from server members or haven't added the bot to any server.",
-						suggestion:
+						tip:
 							"Please enable 'Allow direct messages from server members' in your Discord privacy settings, or add our bot to a server you're in.",
 						actionUrl: process.env.NEXT_PUBLIC_APP_URL + "/dashboard/account-settings",
 						eventId: event.id,
 
 					}, {
-					status: 403
+					status: 503
 				}
 				)
 			}
@@ -226,15 +228,11 @@ export const POST = async (req: NextRequest) => {
 					message: "Error processing event",
 					eventId: event.id,
 				},
-				{ status: 500 }
+				{ status: 503 }
 			)
 
 		}
 
-		console.timeEnd("API Response Time");
-		const duration = performance.now() - time;
-
-		console.log(`API executed in ${duration.toFixed(2)} ms`);
 		return NextResponse.json(
 			{
 				message: "Event processed succesfully",
@@ -250,13 +248,11 @@ export const POST = async (req: NextRequest) => {
 					error: true,
 					code: "DISCORD_USER_NOT_CONNECTED",
 					title: "Invalid User ID",
-					description:
-						"We couldn't send you a direct message on Discord.",
-					suggestion:
+					tip:
 						"Please provide a valid Discord User ID",
 
 				}, {
-				status: 400
+				status: 503
 			}
 			)
 
@@ -268,11 +264,11 @@ export const POST = async (req: NextRequest) => {
 					error: true,
 					code: "DISCORD_INVALID_PAYLOAD",
 					title: "Discord API Error",
-					description: "Failed to send due to invalid data or invalid Discord ID",
+					description: "Failed to ping due to invalid data or invalid Discord ID",
 					details: err.rawError.errors,
 
 				}, {
-				status: 400
+				status: 503
 			}
 			)
 
