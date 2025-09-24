@@ -22,7 +22,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
 					apiKey: key
 				}
 			})
-			void selfPing({ email: user.email || "", name: user.name || "" })
+			void selfPing({ email: user.email || "", name: user.name || "", pic: user.image || "" })
 
 		}
 	},
@@ -32,6 +32,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
 		},
 
 		async redirect({ url, baseUrl }) {
+
 			return url.startsWith(baseUrl) ? url : baseUrl
 		},
 		async session({ session, token }) {

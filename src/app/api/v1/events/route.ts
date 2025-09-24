@@ -286,7 +286,7 @@ export const POST = async (req: NextRequest) => {
 
 		if (err instanceof z.ZodError) {
 			return NextResponse.json(
-				{ message: err.message + " || No category was found " },
+				{ message: err.message + " || No category was found ", tip: "Please use /api/v2/events if you are using more fields" },
 				{ status: 422 }
 			)
 		}

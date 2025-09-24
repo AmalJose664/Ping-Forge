@@ -13,11 +13,8 @@ import { codeSnippets } from "@/utils"
 import Link from "next/link"
 import { Github } from "@/components/magicui/Github"
 
-const Page = ({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) => {
+const Page = () => {
 	const year = new Date().getFullYear()
-	const utmSource = searchParams.utm_source ?? null;
-	const utmMedium = searchParams.utm_medium ?? null;
-	const utmCampaign = searchParams.utm_campaign ?? null;
 	return (
 		<>
 			<section className="relative py-24 sm:py-32 bg-brand-25 ">
@@ -59,7 +56,6 @@ const Page = ({ searchParams }: { searchParams: { [key: string]: string | string
 						<div className="w-full max-w-80">
 							<ShinyButton
 								href={"/sign-up"}
-								query={{ utmCampaign, utmMedium, utmSource }}
 
 								className="relative z-10 h-14 w-full text-base shadow-lg transition-shadow duration-300 hover:shadow-xl "
 							>

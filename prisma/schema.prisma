@@ -98,7 +98,7 @@ model Event {
   createdAt        DateTime       @default(now())
   updatedAt        DateTime       @updatedAt
   eventCategoryId  String?
-  EventCategory    EventCategory? @relation(fields: [eventCategoryId], references: [id])
+  EventCategory    EventCategory? @relation(fields: [eventCategoryId], references: [id], onDelete: Cascade)
   user             User           @relation(fields: [userId], references: [id])
 
   @@index([createdAt])

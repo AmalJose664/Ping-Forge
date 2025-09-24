@@ -31,7 +31,10 @@ export class DiscordClient {
 	async sendNiceEmbed(
 		channelId: string,
 		embed: APIEmbed
-	): Promise<RESTPostAPIChannelMessageResult> {
+	)
+		: Promise<RESTPostAPIChannelMessageResult> {
+		console.log(embed, "\n\n-----------------------------------------------------------------------------------------\n")
+		//return { embeds: "" }
 		return this.rest.post(Routes.channelMessages(channelId), {
 			body: { embeds: [embed] },
 		}) as Promise<RESTPostAPIChannelMessageResult>

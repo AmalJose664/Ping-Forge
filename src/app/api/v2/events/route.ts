@@ -13,7 +13,7 @@ const REQUEST_VALIDATOR = z
 		url: z.string().url().optional(),
 		iconAvatar: z.string().optional(),
 		imageBg: z.string().url().optional(),
-		codeSnippet: z.string().optional(),
+		codeSnippet: z.string().optional().default(""),
 		footer: z
 			.object({
 				text: z.string().default("Author").optional(),
@@ -35,6 +35,7 @@ export const POST = async (req: NextRequest) => {
 	try {
 		let requestData: unknown
 		try {
+
 			requestData = await req.json()
 
 		} catch (err: any) {
@@ -150,15 +151,14 @@ export const POST = async (req: NextRequest) => {
 				{ status: 404 }
 			)
 		}
+		const codeSnippet = validationResult.codeSnippet ? " \n```\n" + validationResult.codeSnippet + "```" : ""
+		console.log(codeSnippet, "     <<<<<<<<<<<<<<<<<<")
 		const eventData = {
 			title: `${category.emoji || "🔔"} ${category.name.charAt(0).toUpperCase() + category.name.slice(1)
 				}`,
 			description:
 				(validationResult.description ||
-					`A new ${category.name} event has occured !`) +
-				" \n```\n " +
-				validationResult.codeSnippet +
-				"\n```",
+					`A new ${category.name} event has occured !  `) + codeSnippet,
 
 			color: category.color,
 			thumbnail: {
@@ -210,7 +210,8 @@ export const POST = async (req: NextRequest) => {
 
 		const dmChannel = await discord.createDm(user.discordId)
 		try {
-			await discord.sendNiceEmbed(dmChannel.id, eventData)
+			const result = await discord.sendNiceEmbed(dmChannel.id, eventData)
+			console.log(result, "+===================")
 			event = await db.$transaction(async (tx) => {
 				const newEvent = await tx.event.create({
 					data: {

@@ -8,8 +8,6 @@ interface ShinyButtonProps extends HTMLAttributes<HTMLAnchorElement> {
 	className?: string
 	href?: string
 	query?: {
-		utmCampaign: string | string[] | null
-		utmMedium: string | string[] | null
 		utmSource: string | string[] | null
 	}
 }
@@ -25,8 +23,6 @@ const ShinyButton = ({
 			href={{
 				pathname: href || "#", query: {
 					utm_source: query?.utmSource,
-					utm_medium: query?.utmMedium,
-					utm_campaign: query?.utmCampaign,
 				},
 			}}
 
