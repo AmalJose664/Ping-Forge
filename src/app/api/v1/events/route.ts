@@ -12,7 +12,7 @@ const REQUEST_VALIDATOR = z
 		description: z.string().optional(),
 	})
 	.strict()
-export let discord = new DiscordClient(process.env.DISCORD_BOT_TOKEN)
+discord = new DiscordClient(process.env.DISCORD_BOT_TOKEN)
 export const POST = async (req: NextRequest) => {
 
 	try {
